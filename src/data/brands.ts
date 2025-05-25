@@ -1,23 +1,3 @@
-import type { CategoryNode } from "./categories";
-
-const gradients = [
-  "/gradients/blue-purple.jpg",
-  "/gradients/pink-orange.jpg",
-  "/gradients/green-emerald.jpg",
-  "/gradients/yellow-orange.jpg",
-  "/gradients/purple-pink.jpg",
-  "/gradients/indigo-blue.jpg",
-  "/gradients/red-pink.jpg",
-  "/gradients/teal-cyan.jpg",
-] as const;
-
-const getGradient = (id: string) => {
-  const index =
-    id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    gradients.length;
-  return gradients[index];
-};
-
 export type Brand = {
   id: string;
   name: string;

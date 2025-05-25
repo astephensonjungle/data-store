@@ -39,12 +39,6 @@ export default function BrandsTab() {
     }
   };
 
-  // Determine if the filter indicator should be shown
-  const tier1CategoryNames = categories.map((cat) => cat.name);
-  const showFilterIndicator =
-    !!brandFilter ||
-    (!!categoryFilter && !tier1CategoryNames.includes(categoryFilter));
-
   return (
     <div className="min-w-0 w-full">
       {/* Horizontally scrollable Tier 1 Category filter pills */}

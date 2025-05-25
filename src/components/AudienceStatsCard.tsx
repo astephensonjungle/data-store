@@ -1,4 +1,3 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import React from "react";
@@ -34,7 +33,6 @@ export default function AudienceStatsCard({
   title,
   size,
   propensity,
-  description,
   details,
   editable = false,
   sliders,

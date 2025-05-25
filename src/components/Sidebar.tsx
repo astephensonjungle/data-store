@@ -1,6 +1,5 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { useDiscoverTab } from "@/context/DiscoverTabContext";
 
 export default function Sidebar() {

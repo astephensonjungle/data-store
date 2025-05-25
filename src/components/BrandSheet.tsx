@@ -7,9 +7,8 @@ import {
   SheetDescription,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Slider } from "@/components/ui/slider";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
@@ -37,7 +36,7 @@ export default function BrandSheet({
   onOpenChange,
   brand,
 }: BrandSheetProps) {
-  const { audiences, addAudience } = useAudiences();
+  const { addAudience } = useAudiences();
 
   // Slider state for Extended Audience
   const [size, setSize] = useState([23]);

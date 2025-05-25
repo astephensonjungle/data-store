@@ -4,6 +4,7 @@ import Link from "next/link";
 import SearchPopover from "@/components/SearchPopover";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export default function TopBar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -16,7 +17,12 @@ export default function TopBar() {
       <div className="flex items-center gap-8 min-w-[260px]">
         {/* Logo */}
         <div className="w-10 h-10 flex items-center justify-center">
-          <img src="/assets/logo-black.svg" alt="Logo" className="w-8 h-8" />
+          <Image
+            src="/assets/logo-black.svg"
+            alt="Logo"
+            width={32}
+            height={32}
+          />
         </div>
         {/* Nav Links */}
         <nav className="flex gap-6 text-base">
@@ -73,7 +79,6 @@ export default function TopBar() {
           />
           {searchOpen && (
             <SearchPopover
-              open={searchOpen}
               onOpenChange={setSearchOpen}
               query={searchQuery}
               setQuery={setSearchQuery}
@@ -87,6 +92,8 @@ export default function TopBar() {
           <AvatarImage
             src="/assets/avatar.jpg"
             alt="Profile"
+            width={32}
+            height={32}
             className="object-cover"
           />
         </Avatar>

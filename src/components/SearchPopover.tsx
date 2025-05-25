@@ -3,9 +3,9 @@ import { brands } from "@/data/brands";
 import { categories } from "@/data/categories";
 import { useAudiences } from "@/hooks/useAudiences";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface SearchPopoverProps {
-  open: boolean;
   onOpenChange: (open: boolean) => void;
   query: string;
   setQuery: (q: string) => void;
@@ -14,7 +14,6 @@ interface SearchPopoverProps {
 const RECENT_KEY = "recent_searches";
 
 export default function SearchPopover({
-  open,
   onOpenChange,
   query,
   setQuery,
@@ -87,9 +86,11 @@ export default function SearchPopover({
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
                     onClick={() => handleBrandClick(b.name)}
                   >
-                    <img
+                    <Image
                       src={b.brandImage}
                       alt={b.name}
+                      width={32}
+                      height={32}
                       className="w-8 h-8 rounded-full"
                     />
                     <div>
@@ -158,7 +159,7 @@ export default function SearchPopover({
                 No recent searches.
               </div>
             ) : (
-              recent.map((r, i) => (
+              recent.map((r) => (
                 <div
                   key={r}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
