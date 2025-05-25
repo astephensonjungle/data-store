@@ -8,7 +8,7 @@ export default function Sidebar() {
 
   if (pathname.startsWith("/my-audiences")) {
     return (
-      <aside className="bg-transparent p-6">
+      <aside className="bg-transparent p-6 fixed top-16 left-0 h-full w-[20%] z-30 overflow-y-auto">
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">My Audiences</h2>
           <p className="text-neutral-500 text-sm mb-2">
@@ -22,7 +22,7 @@ export default function Sidebar() {
 
   // Default: Discover sidebar
   return (
-    <aside className="bg-transparent p-6">
+    <aside className="bg-transparent p-6 fixed top-16 left-0 h-full w-[20%] z-30 overflow-y-auto">
       <h2 className="text-xl font-semibold mb-2 text-black">Discover</h2>
       <p className="text-neutral-500 text-sm mb-4">
         Discover new brand audiences, see audience details, and build custom

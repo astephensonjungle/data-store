@@ -12,7 +12,7 @@ export default function TopBar() {
   const pathname = usePathname();
 
   return (
-    <header className="w-full flex items-center justify-between px-8 py-4 bg-[#f6f3ee]">
+    <header className="w-full flex items-center justify-between px-8 py-4 bg-[#f6f3ee] fixed top-0 left-0 h-16 z-40">
       {/* Left: Logo and Nav */}
       <div className="flex items-center gap-8 min-w-[260px]">
         {/* Logo */}

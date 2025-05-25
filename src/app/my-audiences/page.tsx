@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import AudienceCard from "@/components/AudienceCard";
 import AudienceSheet from "@/components/AudienceSheet";
 import { useAudiences } from "@/hooks/useAudiences";
+import FilterBar from "@/components/FilterBar";
 
 interface Audience {
   id: number;
@@ -46,23 +47,12 @@ export default function MyAudiencesPage() {
 
   return (
     <>
-      {/* Filters and grid only, title/description now in Sidebar */}
-      <div className="flex gap-2 mb-2 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent pb-2 w-full max-w-full min-w-0">
-        {filters.map((filter) => (
-          <Button
-            key={filter}
-            className={`px-4 py-2 rounded-full font-medium text-sm transition-colors ${
-              activeFilter === filter
-                ? "bg-black text-white"
-                : "bg-neutral-200 text-black hover:bg-neutral-300"
-            }`}
-            onClick={() => setActiveFilter(filter)}
-            variant="secondary"
-          >
-            {filter}
-          </Button>
-        ))}
-      </div>
+      <FilterBar
+        filters={filters}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+        className="sticky top-[5rem] z-20 bg-[#f6f3ee]"
+      />
       <div className="grid grid-cols-3 gap-2">
         {audiences.map((audience) => (
           <AudienceCard

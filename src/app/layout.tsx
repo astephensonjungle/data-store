@@ -19,7 +19,9 @@ export default function RootLayout({
               <div className="w-[20%]">
                 <Sidebar />
               </div>
-              <main className="flex-1 w-[80%] pr-8 pt-6 pb-8">{children}</main>
+              <main className="flex-1 w-[80%] mt-16 pr-8 pt-6 pb-8">
+                {children}
+              </main>
             </div>
           </div>
           <Toaster position="bottom-right" richColors />
