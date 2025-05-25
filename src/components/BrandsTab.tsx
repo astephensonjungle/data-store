@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { brands } from "@/data/brands";
 import BrandCard from "@/components/BrandCard";
 import BrandSheet from "@/components/BrandSheet";
-import { Button } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
 import { categories } from "@/data/categories";
 import FilterBar from "@/components/FilterBar";
