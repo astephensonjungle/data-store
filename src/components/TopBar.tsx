@@ -11,12 +11,12 @@ export default function TopBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const urlSearch = searchParams.get("search") || "";
 
   // Sync searchQuery state with the URL's search param
   React.useEffect(() => {
-    const urlSearch = searchParams.get("search") || "";
     setSearchQuery(urlSearch);
-  }, [searchParams]);
+  }, [urlSearch]);
 
   return (
     <header className="w-full flex items-center justify-between px-8 py-4 bg-[#f6f3ee] fixed top-0 left-0 h-20 z-40">
