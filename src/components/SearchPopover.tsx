@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { brands } from "@/data/brands";
 import { categories } from "@/data/categories";
 import { useAudiences } from "@/hooks/useAudiences";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 interface SearchPopoverProps {
+  open: boolean;
   onOpenChange: (open: boolean) => void;
   query: string;
   setQuery: (q: string) => void;
@@ -14,6 +15,7 @@ interface SearchPopoverProps {
 const RECENT_KEY = "recent_searches";
 
 export default function SearchPopover({
+  open,
   onOpenChange,
   query,
   setQuery,
@@ -21,6 +23,10 @@ export default function SearchPopover({
   const { audiences } = useAudiences();
   const [recent, setRecent] = useState<string[]>([]);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -39,17 +45,113 @@ export default function SearchPopover({
     }
   };
 
-  // Filter logic
+  // Filter logic with useMemo
   const q = query.trim().toLowerCase();
-  const brandResults = q
-    ? brands.filter((b) => b.name.toLowerCase().includes(q))
-    : [];
-  const categoryResults = q
-    ? categories.filter((c) => c.name.toLowerCase().includes(q))
-    : [];
-  const audienceResults = q
-    ? audiences.filter((a) => a.name.toLowerCase().includes(q))
-    : [];
+  const brandResults = useMemo(
+    () => (q ? brands.filter((b) => b.name.toLowerCase().includes(q)) : []),
+    [q]
+  );
+
+  const categoryResults = useMemo(
+    () => (q ? categories.filter((c) => c.name.toLowerCase().includes(q)) : []),
+    [q]
+  );
+
+  const audienceResults = useMemo(
+    () => (q ? audiences.filter((a) => a.name.toLowerCase().includes(q)) : []),
+    [q, audiences]
+  );
+
+  // Combine results for keyboard navigation
+  const results = useMemo(() => {
+    if (!q) return [];
+    return [
+      ...brandResults.map((b) => ({ ...b, type: "brand" as const })),
+      ...categoryResults.map((c) => ({ ...c, type: "category" as const })),
+      ...audienceResults.map((a) => ({ ...a, type: "audience" as const })),
+    ];
+  }, [q, brandResults, categoryResults, audienceResults]);
+
+  useEffect(() => {
+    if (q) {
+      setActiveIndex(brandResults.length > 0 ? 0 : -1);
+    } else {
+      setActiveIndex(-1);
+    }
+  }, [q, brandResults.length]);
+
+  // Helper to set search param and clear brand/category
+  const goToSearch = (search: string) => {
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    router.push(`/discover?${params.toString()}`);
+    onOpenChange(false);
+  };
+
+  // Keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!q || results.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev + 1) % results.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev - 1 + results.length) % results.length);
+    } else if (e.key === "Enter") {
+      if (activeIndex >= 0) {
+        const item = results[activeIndex];
+        if (item.type === "brand") handleBrandClick(item.name);
+        else if (item.type === "category") handleCategoryClick(item.name);
+        else onOpenChange(false);
+      } else if (q) {
+        // No selection, treat as search
+        goToSearch(query);
+      }
+    } else if (e.key === "Escape") {
+      onOpenChange(false);
+    }
+  };
+
+  // Highlight matching text
+  const highlight = (text: string) => {
+    if (!q) return text;
+    const idx = text.toLowerCase().indexOf(q);
+    if (idx === -1) return text;
+    return (
+      <>
+        {text.slice(0, idx)}
+        <span className="bg-yellow-200 font-semibold">
+          {text.slice(idx, idx + q.length)}
+        </span>
+        {text.slice(idx + q.length)}
+      </>
+    );
+  };
+
+  // Click outside to close
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node)
+      ) {
+        onOpenChange(false);
+      }
+    }
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open, onOpenChange]);
+
+  // Focus input on open
+  useEffect(() => {
+    if (open && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [open]);
 
   // Handle navigation on result click
   const handleBrandClick = (name: string) => {
@@ -64,26 +166,42 @@ export default function SearchPopover({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/30">
-      <div className="mt-8 w-full max-w-2xl rounded-2xl bg-[#f6f3ee] shadow-xl p-8 relative">
+    <div
+      className={`fixed inset-0 z-50 flex items-start justify-center bg-black/30 transition-opacity duration-300 ${
+        open ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        ref={popoverRef}
+        className="mt-8 w-full max-w-2xl rounded-2xl bg-[#f6f3ee] shadow-xl p-8 relative transition-all duration-300 transform-gpu translate-y-0 animate-fade-in"
+        style={{ minHeight: 200 }}
+      >
         <input
+          ref={inputRef}
           type="text"
           autoFocus
           placeholder="Search for brands, categories, or saved audiences"
-          className="w-full px-6 py-4 rounded-full bg-neutral-100 text-lg focus:outline-none focus:ring-2 focus:ring-black mb-6"
+          className="w-full px-6 py-4 rounded-full bg-neutral-100 text-base focus:outline-none focus:ring-2 focus:ring-black mb-6"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         {/* Results or Recent Searches */}
         {q ? (
-          <div>
+          <div className="max-h-[60vh] overflow-y-auto">
             {brandResults.length > 0 && (
               <div className="mb-4">
                 <div className="text-neutral-500 text-sm mb-2">Brands</div>
-                {brandResults.map((b) => (
+                {brandResults.map((b, idx) => (
                   <div
                     key={b.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                      activeIndex === idx
+                        ? "bg-neutral-200"
+                        : "hover:bg-neutral-100"
+                    }`}
                     onClick={() => handleBrandClick(b.name)}
                   >
                     <Image
@@ -94,7 +212,7 @@ export default function SearchPopover({
                       className="w-8 h-8 rounded-full"
                     />
                     <div>
-                      <div className="font-medium">{b.name}</div>
+                      <div className="font-medium">{highlight(b.name)}</div>
                       <div className="text-xs text-neutral-500">Brand</div>
                     </div>
                   </div>
@@ -104,15 +222,19 @@ export default function SearchPopover({
             {categoryResults.length > 0 && (
               <div className="mb-4">
                 <div className="text-neutral-500 text-sm mb-2">Categories</div>
-                {categoryResults.map((c) => (
+                {categoryResults.map((c, idx) => (
                   <div
                     key={c.name}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                      activeIndex === idx + brandResults.length
+                        ? "bg-neutral-200"
+                        : "hover:bg-neutral-100"
+                    }`}
                     onClick={() => handleCategoryClick(c.name)}
                   >
                     <div className="w-8 h-8 rounded-full bg-neutral-200" />
                     <div>
-                      <div className="font-medium">{c.name}</div>
+                      <div className="font-medium">{highlight(c.name)}</div>
                       <div className="text-xs text-neutral-500">Category</div>
                     </div>
                   </div>
@@ -124,10 +246,15 @@ export default function SearchPopover({
                 <div className="text-neutral-500 text-sm mb-2">
                   Saved Audiences
                 </div>
-                {audienceResults.map((a) => (
+                {audienceResults.map((a, idx) => (
                   <div
                     key={a.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
+                    className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                      activeIndex ===
+                      idx + brandResults.length + categoryResults.length
+                        ? "bg-neutral-200"
+                        : "hover:bg-neutral-100"
+                    }`}
                     onClick={() => {
                       addRecent(a.name);
                       onOpenChange(false);
@@ -135,7 +262,7 @@ export default function SearchPopover({
                   >
                     <div className="w-8 h-8 rounded-full bg-neutral-200" />
                     <div>
-                      <div className="font-medium">{a.name}</div>
+                      <div className="font-medium">{highlight(a.name)}</div>
                       <div className="text-xs text-neutral-500">Audience</div>
                     </div>
                   </div>
@@ -164,7 +291,7 @@ export default function SearchPopover({
                   key={r}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
                   onClick={() => {
-                    setQuery(r);
+                    goToSearch(r);
                   }}
                 >
                   <div className="w-8 h-8 rounded-full bg-neutral-200" />
@@ -180,6 +307,7 @@ export default function SearchPopover({
         <button
           className="absolute top-4 right-8 text-2xl text-neutral-400 hover:text-neutral-600"
           onClick={() => onOpenChange(false)}
+          aria-label="Close search"
         >
           &times;
         </button>

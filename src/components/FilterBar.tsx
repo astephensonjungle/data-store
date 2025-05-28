@@ -6,7 +6,6 @@ interface FilterBarProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
   className?: string;
-  onClear?: () => void;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
@@ -14,15 +13,10 @@ const FilterBar: React.FC<FilterBarProps> = ({
   activeFilter,
   onFilterChange,
   className = "",
-  onClear,
 }) => {
-  const showIndicator = activeFilter !== filters[0];
-
   return (
-    <>
-      <div
-        className={`flex gap-2 mb-2 py-2overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent pb-2 w-full max-w-full min-w-0 sticky top-16 z-20 bg-[#f6f3ee] ${className}`}
-      >
+    <div className={`mb-2 pb-2 sticky top-16 z-20 bg-[#f6f3ee] ${className}`}>
+      <div className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent max-w-full">
         {filters.map((filter) => (
           <Button
             key={filter}
@@ -38,24 +32,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
           </Button>
         ))}
       </div>
-      {showIndicator && (
-        <div className="mb-4 flex items-center gap-2">
-          <span className="px-4 py-2 rounded-full bg-neutral-200 font-medium text-sm flex items-center gap-1">
-            Selected: <span className="font-bold">{activeFilter}</span>
-            <button
-              className="ml-2 text-neutral-500 hover:text-black text-base"
-              onClick={() => {
-                onFilterChange(filters[0]);
-                if (onClear) onClear();
-              }}
-              aria-label="Clear filter"
-            >
-              &times;
-            </button>
-          </span>
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 

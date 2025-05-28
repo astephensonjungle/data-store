@@ -34,24 +34,30 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const brands = sampleBrands.slice(0, 50).map((name, i) => ({
-  name,
-  mainImage: `https://cdn.example.com/images/${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-main.jpg`,
-  brandImage: `https://cdn.example.com/logos/${name.toLowerCase().replace(/[^a-z0-9]/g, "-")}-logo.png`,
-  description: `${name} is a popular consumer brand.`,
-  categories: getRandomCategories(),
-  deterministicAudience: {
-    size: `${getRandomInt(1, 10)}.${getRandomInt(1, 9)}M`,
-    lookbackWindow: Math.random() > 0.5 ? "90 days" : "All Time",
-    propensityToPurchase: "100%",
-    averageAge: getRandomInt(18, 65),
-    genderDistribution: {
-      male: getRandomInt(30, 60),
-      female: getRandomInt(30, 60),
-      nonSpecified: getRandomInt(0, 10),
-    },
-  },
-}));
+let brandId = 1;
+const brands = [];
+
+const brandsPerCategory = 4;
+for (const cat of allCategories) {
+  for (let i = 0; i < brandsPerCategory; i++) {
+    const name = `${randomFrom(adjectives)} ${randomFrom(nouns)} ${brandId}`;
+    brands.push({
+      name,
+      mainImage: '/assets/gradient.png',
+      brandImage: '/assets/gradient.png',
+      description: `${name} is a trusted consumer brand known for its high-quality products in its category.`,
+      categories: [cat],
+      deterministicAudience: {
+        size: randomAudienceSize(),
+        lookbackWindow: Math.random() > 0.5 ? "90 days" : "All Time",
+        propensityToPurchase: `${randomInt(60, 100)}%`,
+        averageAge: randomInt(18, 65),
+        genderDistribution: randomGenderDist(),
+      },
+    });
+    brandId++;
+  }
+}
 
 const output = `import type { CategoryNode } from "./categories";
 
