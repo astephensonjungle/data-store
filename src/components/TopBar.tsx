@@ -30,8 +30,8 @@ export default function TopBar() {
             href="/discover"
             className={
               pathname.startsWith("/discover")
-                ? "font-semibold text-black underline underline-offset-4"
-                : "text-neutral-500 hover:underline"
+                ? "text-black"
+                : "text-neutral-500 hover:text-black"
             }
           >
             Discover
@@ -40,8 +40,8 @@ export default function TopBar() {
             href="/my-audiences"
             className={
               pathname.startsWith("/my-audiences")
-                ? "font-semibold text-black underline underline-offset-4"
-                : "text-neutral-500 hover:underline"
+                ? "text-black"
+                : "text-neutral-500 hover:text-black"
             }
           >
             My Audiences
@@ -53,7 +53,7 @@ export default function TopBar() {
         <div className="relative w-full max-w-2xl">
           <button
             type="button"
-            className="w-full pl-10 pr-4 py-2 rounded-full bg-[#ece7db] text-base text-left text-neutral-700 focus:outline-none focus:ring-2 focus:ring-black transition placeholder:text-neutral-500 hover:bg-[#e3dfd6] flex items-center gap-2"
+            className="w-full pl-10 pr-4 py-2 rounded-full bg-[#ece7db] text-base text-left text-neutral-700 focus:outline-none focus:ring-0 transition placeholder:text-neutral-500 hover:bg-[#e3dfd6] flex items-center gap-2 cursor-pointer"
             onClick={() => setSearchOpen(true)}
           >
             <span className="absolute left-5 top-1/2 -translate-y-1/2 text-xl text-neutral-400">

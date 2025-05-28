@@ -30,11 +30,11 @@ export default function Sidebar() {
       </p>
       <div className="flex flex-col gap-2">
         <button
-          className={`flex items-center gap-2 px-5 py-3 rounded-full text-base font-medium transition-all
+          className={`flex items-center gap-2 px-5 py-3 rounded-full text-base font-medium transition-all cursor-pointer
             ${
               tab === "brands"
-                ? "bg-black text-white"
-                : "bg-[#f6f3ee] text-black border border-black"
+                ? "bg-[#DCD2BF] text-black border border-[#DCD2BF]"
+                : "bg-transparent text-black border border-[#DCD2BF] hover:bg-[#E9E3D4]"
             }
           `}
           onClick={() => setTab("brands")}
@@ -43,11 +43,11 @@ export default function Sidebar() {
           Brands
         </button>
         <button
-          className={`flex items-center gap-2 px-5 py-3 rounded-full text-base font-medium transition-all
+          className={`flex items-center gap-2 px-5 py-3 rounded-full text-base font-medium transition-all cursor-pointer
             ${
               tab === "categories"
-                ? "bg-black text-white"
-                : "bg-[#f6f3ee] text-black border border-black"
+                ? "bg-[#DCD2BF] text-black border border-[#DCD2BF]"
+                : "bg-transparent text-black border border-[#DCD2BF] hover:bg-[#E9E3D4]"
             }
           `}
           onClick={() => setTab("categories")}

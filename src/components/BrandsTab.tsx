@@ -58,6 +58,24 @@ function getPageNumbers(page: number, totalPages: number): (number | string)[] {
   return pages;
 }
 
+// Helper to get all subcategory names for a given category (copied from CategoriesTab)
+function getAllSubcategoryNames(categoryName: string): string[] {
+  const category = categories.find((cat) => cat.name === categoryName);
+  if (!category) return [categoryName];
+  const subcategories: string[] = [categoryName];
+  if (category.children) {
+    category.children.forEach((sub) => {
+      subcategories.push(sub.name);
+      if (sub.children) {
+        sub.children.forEach((leaf) => {
+          subcategories.push(leaf.name);
+        });
+      }
+    });
+  }
+  return subcategories;
+}
+
 export default function BrandsTab() {
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -77,8 +95,9 @@ export default function BrandsTab() {
   } else if (brandFilter) {
     filteredBrands = brands.filter((b) => b.name === brandFilter);
   } else if (categoryFilter) {
+    const allCategories = getAllSubcategoryNames(categoryFilter);
     filteredBrands = brands.filter((b) =>
-      b.categories.includes(categoryFilter)
+      b.categories.some((cat) => allCategories.includes(cat))
     );
   }
 
@@ -154,7 +173,7 @@ export default function BrandsTab() {
                   onClick={() =>
                     handleCategoryPillClick(cat === "All brands" ? null : cat)
                   }
-                  className="rounded-full bg-[#E9E3D4] px-5 py-2 text-base font-medium text-neutral-800 hover:bg-[#e0d9c7] transition-colors"
+                  className="rounded-full bg-[#E9E3D4] px-5 py-2 text-base font-medium text-neutral-800 hover:bg-[#e0d9c7] transition-colors cursor-pointer"
                 >
                   {cat}
                 </button>

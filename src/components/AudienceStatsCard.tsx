@@ -41,7 +41,7 @@ export default function AudienceStatsCard({
   children,
 }: AudienceStatsCardProps) {
   return (
-    <div className="bg-white rounded-xl p-6 flex-1 flex flex-col gap-1 shadow min-w-[340px]">
+    <div className="bg-[#FBFBFB] border border-[#E4E4E7] rounded-xl p-6 flex-1 flex flex-col gap-1 min-w-[340px] shadow-none h-full">
       <div className="text-sm text-neutral-500 mb-1">{title}</div>
       <div className="text-3xl font-bold mb-1">
         {typeof size === "number" ? `${size}M` : size} consumers
@@ -49,13 +49,13 @@ export default function AudienceStatsCard({
       <div className="text-base text-neutral-700 mb-2">
         {propensity}% propensity to purchase
       </div>
-      <div className="bg-neutral-100 rounded-lg p-4 flex flex-col gap-2">
+      <div className="bg-[#F4F1EB] rounded-lg p-4 flex flex-col gap-2">
         {details}
         {editable && sliders && (
           <>
             {sliders.size && (
-              <div>
-                <div className="flex justify-between text-xs mb-1">
+              <div className="bg-[#F4F1EB] mb-2">
+                <div className="flex justify-between text-xs mb-4">
                   <span>Size</span>
                   <span>
                     {sliders.size.formatValue
@@ -69,7 +69,7 @@ export default function AudienceStatsCard({
                   step={sliders.size.step}
                   value={sliders.size.value}
                   onValueChange={sliders.size.onChange}
-                  className="mb-2"
+                  className="mb-2 mt-2"
                 />
               </div>
             )}
@@ -114,7 +114,7 @@ export default function AudienceStatsCard({
       {children}
       {onSave && (
         <Button
-          className="mt-2 bg-neutral-200 rounded-lg px-4 py-2 font-medium"
+          className="mt-auto bg-black text-white rounded-full px-8 py-3 text-sm font-normal cursor-pointer"
           onClick={onSave}
         >
           {saveLabel}

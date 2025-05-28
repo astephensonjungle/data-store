@@ -5,815 +5,674 @@ export type CategoryNode = {
 
 export const categories: CategoryNode[] = [
   {
-    "name": "Baby and Toddler Products",
-    "children": [
+    name: "Baby and Toddler Products",
+    children: [
       {
-        "name": "Baby Bath & Potty"
+        name: "Baby Bath & Potty",
       },
       {
-        "name": "Baby Furniture, Bedding & Decor"
+        name: "Baby Furniture, Bedding & Decor",
       },
       {
-        "name": "Baby Health & Safety"
+        name: "Baby Health & Safety",
       },
       {
-        "name": "Baby Travel Equipment"
+        name: "Baby Travel Equipment",
       },
       {
-        "name": "Diapers"
+        name: "Diapers",
       },
       {
-        "name": "Nursing and Feeding Products"
-      }
-    ]
+        name: "Nursing and Feeding Products",
+      },
+    ],
   },
   {
-    "name": "Back to School Supplies"
+    name: "Back to School Supplies",
   },
   {
-    "name": "Barbeque",
-    "children": [
+    name: "Barbeque",
+    children: [
       {
-        "name": "Charcoal"
+        name: "Charcoal",
       },
       {
-        "name": "Charcoal Lighter Fluids"
-      }
-    ]
+        name: "Charcoal Lighter Fluids",
+      },
+    ],
   },
   {
-    "name": "Beverages",
-    "children": [
+    name: "Beverages",
+    children: [
       {
-        "name": "Shakes & Smoothies"
+        name: "Shakes & Smoothies",
       },
       {
-        "name": "Sparkling Water, Seltzers & Tonics"
+        name: "Sparkling Water, Seltzers & Tonics",
       },
       {
-        "name": "Carbonated Soft Drinks"
+        name: "Carbonated Soft Drinks",
       },
       {
-        "name": "Coffee and Tea"
+        name: "Coffee and Tea",
       },
       {
-        "name": "Drink Mixes"
+        name: "Drink Mixes",
       },
       {
-        "name": "Juices"
+        name: "Juices",
       },
       {
-        "name": "Sports/Energy Drinks"
+        name: "Sports/Energy Drinks",
       },
       {
-        "name": "Water"
-      }
-    ]
+        name: "Water",
+      },
+    ],
   },
   {
-    "name": "Cosmetics",
-    "children": [
+    name: "Cosmetics",
+    children: [
       {
-        "name": "Cosmetics Accessories"
+        name: "Cosmetics Accessories",
       },
       {
-        "name": "Cosmetics-Nail"
+        name: "Cosmetics-Nail",
       },
       {
-        "name": "Eye"
+        name: "Eye",
       },
       {
-        "name": "Facial"
+        name: "Facial",
       },
       {
-        "name": "Lip"
+        name: "Lip",
       },
       {
-        "name": "Storage"
-      }
-    ]
+        name: "Storage",
+      },
+    ],
   },
   {
-    "name": "Disposable Tableware",
-    "children": [
+    name: "Disposable Tableware",
+    children: [
       {
-        "name": "Cups and Plates"
+        name: "Cups and Plates",
       },
       {
-        "name": "Disposable Tableware"
-      }
-    ]
+        name: "Disposable Tableware",
+      },
+    ],
   },
   {
-    "name": "Foils, Wraps, and Bags",
-    "children": [
+    name: "Foils, Wraps, and Bags",
+    children: [
       {
-        "name": "Foil Pans"
+        name: "Foil Pans",
       },
       {
-        "name": "Foils and Wraps"
+        name: "Foils and Wraps",
       },
       {
-        "name": "Food and Trash Bags"
-      }
-    ]
+        name: "Food and Trash Bags",
+      },
+    ],
   },
   {
-    "name": "Fragrance",
-    "children": [
+    name: "Fragrance",
+    children: [
       {
-        "name": "Fragrances - Women's"
+        name: "Fragrances - Women's",
       },
       {
-        "name": "Shaving Lotion/Men's Fragrance"
-      }
-    ]
+        name: "Shaving Lotion/Men's Fragrance",
+      },
+    ],
   },
   {
-    "name": "Frozen",
-    "children": [
+    name: "Frozen",
+    children: [
       {
-        "name": "Frozen Pizza"
+        name: "Frozen Pizza",
       },
       {
-        "name": "Ice"
+        name: "Ice",
       },
       {
-        "name": "Frozen Meat Alternatives"
+        name: "Frozen Meat Alternatives",
       },
       {
-        "name": "Frozen Baked Goods"
+        name: "Frozen Baked Goods",
       },
       {
-        "name": "Frozen Beverages"
+        name: "Frozen Beverages",
       },
       {
-        "name": "Frozen Desserts"
+        name: "Frozen Desserts",
       },
       {
-        "name": "Frozen Fruits and Vegetables"
+        name: "Frozen Fruits and Vegetables",
       },
       {
-        "name": "Frozen Juices"
+        name: "Frozen Juices",
       },
       {
-        "name": "Frozen Meals"
+        name: "Frozen Meals",
       },
       {
-        "name": "Frozen Meat/Poultry/Seafood"
+        name: "Frozen Meat/Poultry/Seafood",
       },
       {
-        "name": "Frozen Snacks"
+        name: "Frozen Snacks",
       },
       {
-        "name": "Other Frozen"
-      }
-    ]
+        name: "Other Frozen",
+      },
+    ],
   },
   {
-    "name": "General Food",
-    "children": [
-      {
-        "name": "Canned & Packaged",
-        "children": [
-          {
-            "name": "Beans"
-          },
-          {
-            "name": "Canned Meat"
-          },
-          {
-            "name": "Dried Beans & Vegetables"
-          },
-          {
-            "name": "Fruit"
-          },
-          {
-            "name": "Soup"
-          },
-          {
-            "name": "Stock & Broths"
-          },
-          {
-            "name": "Vegetables"
-          }
-        ]
-      },
-      {
-        "name": "Pasta, Rice & Grains"
-      },
-      {
-        "name": "Baby Food"
-      },
-      {
-        "name": "Bakery",
-        "children": [
-          {
-            "name": "Bagels"
-          },
-          {
-            "name": "Bread"
-          },
-          {
-            "name": "Cupcakes & Muffins"
-          },
-          {
-            "name": "English Muffins"
-          },
-          {
-            "name": "Pastries & Doughnuts"
-          },
-          {
-            "name": "Pies & Cakes"
-          },
-          {
-            "name": "Pizza Crust"
-          },
-          {
-            "name": "Tortillas, Pitas & Wraps"
-          }
-        ]
-      },
-      {
-        "name": "Baking",
-        "children": [
-          {
-            "name": "Baking Chips & Chocolate"
-          },
-          {
-            "name": "Baking Mixes"
-          },
-          {
-            "name": "Baking Nuts & Seeds"
-          },
-          {
-            "name": "Baking Powder & Soda"
-          },
-          {
-            "name": "Baking Syrup"
-          },
-          {
-            "name": "Breadcrumbs & Batters"
-          },
-          {
-            "name": "Condensed & Powdered Milk"
-          },
-          {
-            "name": "Flours & Meals"
-          },
-          {
-            "name": "Frosting, Decorations & Toppings"
-          },
-          {
-            "name": "Marshmallows"
-          },
-          {
-            "name": "Oil & Shortening"
-          },
-          {
-            "name": "Pie Crusts & Fillings"
-          },
-          {
-            "name": "Sugars"
-          },
-          {
-            "name": "Yeast"
-          }
-        ]
-      },
-      {
-        "name": "Breakfast",
-        "children": [
-          {
-            "name": "Breakfast Bars"
-          },
-          {
-            "name": "Cereal & Granola"
-          },
-          {
-            "name": "Oatmeal & Grits"
-          },
-          {
-            "name": "Toaster Pastries"
-          }
-        ]
-      },
-      {
-        "name": "Candy",
-        "children": [
-          {
-            "name": "Caramel & Toffee"
-          },
-          {
-            "name": "Chocolate"
-          },
-          {
-            "name": "Fruit Flavored & Sour"
-          },
-          {
-            "name": "Gum"
-          },
-          {
-            "name": "Gummy & Chewy"
-          },
-          {
-            "name": "Hard Candy & Lollipops"
-          },
-          {
-            "name": "Mints"
-          }
-        ]
-      },
-      {
-        "name": "Condiments and Sauces",
-        "children": [
-          {
-            "name": "Chutneys & Relish"
-          },
-          {
-            "name": "Croutons & Salad Toppers"
-          },
-          {
-            "name": "Jam, Jelly & Preserves"
-          },
-          {
-            "name": "Ketchup"
-          },
-          {
-            "name": "Marinated Fruit & Vegetables"
-          },
-          {
-            "name": "Mayonnaise & Sandwich Spread"
-          },
-          {
-            "name": "Mustard"
-          },
-          {
-            "name": "Nut Butter & Spread"
-          },
-          {
-            "name": "Olives"
-          },
-          {
-            "name": "Pickles"
-          },
-          {
-            "name": "Salad Dressing"
-          },
-          {
-            "name": "Salt, Spices & Seasoning"
-          },
-          {
-            "name": "Sauces"
-          },
-          {
-            "name": "Syrups & Sweeteners"
-          },
-          {
-            "name": "Vinegar & Cooking Wine"
-          }
-        ]
-      },
-      {
-        "name": "Cookies and Crackers"
-      },
-      {
-        "name": "Fruit"
-      },
-      {
-        "name": "Meals"
-      },
-      {
-        "name": "Snacks",
-        "children": [
-          {
-            "name": "Fruit Snacks"
-          },
-          {
-            "name": "Nuts & Dried Fruit"
-          },
-          {
-            "name": "Pudding & Gelatin"
-          },
-          {
-            "name": "Salsa & Dips"
-          },
-          {
-            "name": "Salty Snacks & Popcorn"
-          },
-          {
-            "name": "Snack Bars"
-          },
-          {
-            "name": "Snack Meats & Jerky"
-          }
-        ]
-      },
-      {
-        "name": "Vegetables"
-      }
-    ]
+    name: "Canned & Packaged",
+    children: [
+      { name: "Beans" },
+      { name: "Canned Meat" },
+      { name: "Dried Beans & Vegetables" },
+      { name: "Fruit" },
+      { name: "Soup" },
+      { name: "Stock & Broths" },
+      { name: "Vegetables" },
+    ],
+  },
+  { name: "Pasta, Rice & Grains" },
+  { name: "Baby Food" },
+  {
+    name: "Bakery",
+    children: [
+      { name: "Bagels" },
+      { name: "Bread" },
+      { name: "Cupcakes & Muffins" },
+      { name: "English Muffins" },
+      { name: "Pastries & Doughnuts" },
+      { name: "Pies & Cakes" },
+      { name: "Pizza Crust" },
+      { name: "Tortillas, Pitas & Wraps" },
+    ],
   },
   {
-    "name": "General Merchandise"
+    name: "Baking",
+    children: [
+      { name: "Baking Chips & Chocolate" },
+      { name: "Baking Mixes" },
+      { name: "Baking Nuts & Seeds" },
+      { name: "Baking Powder & Soda" },
+      { name: "Baking Syrup" },
+      { name: "Breadcrumbs & Batters" },
+      { name: "Condensed & Powdered Milk" },
+      { name: "Flours & Meals" },
+      { name: "Frosting, Decorations & Toppings" },
+      { name: "Marshmallows" },
+      { name: "Oil & Shortening" },
+      { name: "Pie Crusts & Fillings" },
+      { name: "Sugars" },
+      { name: "Yeast" },
+    ],
   },
   {
-    "name": "Grooming Supplies"
+    name: "Breakfast",
+    children: [
+      { name: "Breakfast Bars" },
+      { name: "Cereal & Granola" },
+      { name: "Oatmeal & Grits" },
+      { name: "Toaster Pastries" },
+    ],
   },
   {
-    "name": "Hair Care",
-    "children": [
-      {
-        "name": "Hair Accessories"
-      },
-      {
-        "name": "Hair Coloring"
-      },
-      {
-        "name": "Hair Conditioner"
-      },
-      {
-        "name": "Hair Growth Products"
-      },
-      {
-        "name": "Hair Spray/Spritz"
-      },
-      {
-        "name": "Hair Styling Gel/Mousse"
-      },
-      {
-        "name": "Home Permanent/Relaxer Kits"
-      },
-      {
-        "name": "Shampoo"
-      }
-    ]
+    name: "Candy",
+    children: [
+      { name: "Caramel & Toffee" },
+      { name: "Chocolate" },
+      { name: "Fruit Flavored & Sour" },
+      { name: "Gum" },
+      { name: "Gummy & Chewy" },
+      { name: "Hard Candy & Lollipops" },
+      { name: "Mints" },
+    ],
   },
   {
-    "name": "HFSS Products [High Fat, Sugar, Salt]"
+    name: "Condiments and Sauces",
+    children: [
+      { name: "Chutneys & Relish" },
+      { name: "Croutons & Salad Toppers" },
+      { name: "Jam, Jelly & Preserves" },
+      { name: "Ketchup" },
+      { name: "Marinated Fruit & Vegetables" },
+      { name: "Mayonnaise & Sandwich Spread" },
+      { name: "Mustard" },
+      { name: "Nut Butter & Spread" },
+      { name: "Olives" },
+      { name: "Pickles" },
+      { name: "Salad Dressing" },
+      { name: "Salt, Spices & Seasoning" },
+      { name: "Sauces" },
+      { name: "Syrups & Sweeteners" },
+      { name: "Vinegar & Cooking Wine" },
+    ],
+  },
+  { name: "Cookies and Crackers" },
+  { name: "Fruit" },
+  { name: "Meals" },
+  {
+    name: "Snacks",
+    children: [
+      { name: "Fruit Snacks" },
+      { name: "Nuts & Dried Fruit" },
+      { name: "Pudding & Gelatin" },
+      { name: "Salsa & Dips" },
+      { name: "Salty Snacks & Popcorn" },
+      { name: "Snack Bars" },
+      { name: "Snack Meats & Jerky" },
+    ],
+  },
+  { name: "Vegetables" },
+  {
+    name: "General Merchandise",
   },
   {
-    "name": "Home Care",
-    "children": [
+    name: "Grooming Supplies",
+  },
+  {
+    name: "Hair Care",
+    children: [
       {
-        "name": "Household Cleaning",
-        "children": [
+        name: "Hair Accessories",
+      },
+      {
+        name: "Hair Coloring",
+      },
+      {
+        name: "Hair Conditioner",
+      },
+      {
+        name: "Hair Growth Products",
+      },
+      {
+        name: "Hair Spray/Spritz",
+      },
+      {
+        name: "Hair Styling Gel/Mousse",
+      },
+      {
+        name: "Home Permanent/Relaxer Kits",
+      },
+      {
+        name: "Shampoo",
+      },
+    ],
+  },
+  {
+    name: "HFSS Products [High Fat, Sugar, Salt]",
+  },
+  {
+    name: "Home Care",
+    children: [
+      {
+        name: "Household Cleaning",
+        children: [
           {
-            "name": "All-Purpose Cleaner"
+            name: "All-Purpose Cleaner",
           },
           {
-            "name": "Appliance Cleaner"
+            name: "Appliance Cleaner",
           },
           {
-            "name": "Bathroom Cleaner"
+            name: "Bathroom Cleaner",
           },
           {
-            "name": "Carpet & Floor Cleaner"
+            name: "Carpet & Floor Cleaner",
           },
           {
-            "name": "Cleaning Tools"
+            name: "Cleaning Tools",
           },
           {
-            "name": "Dish Detergent & Soap"
+            name: "Dish Detergent & Soap",
           },
           {
-            "name": "Drain & Septic Cleaner"
+            name: "Drain & Septic Cleaner",
           },
           {
-            "name": "Furniture & Wood Cleaner"
+            name: "Furniture & Wood Cleaner",
           },
           {
-            "name": "Glass Cleaner"
+            name: "Glass Cleaner",
           },
           {
-            "name": "Kitchen Surface Cleaner"
-          }
-        ]
+            name: "Kitchen Surface Cleaner",
+          },
+        ],
       },
       {
-        "name": "Laundry",
-        "children": [
+        name: "Laundry",
+        children: [
           {
-            "name": "Bleach"
+            name: "Bleach",
           },
           {
-            "name": "Laundry Detergent"
+            name: "Laundry Detergent",
           },
           {
-            "name": "Laundry Scent Boosters & Additives"
+            name: "Laundry Scent Boosters & Additives",
           },
           {
-            "name": "Laundry Stain Removers"
-          }
-        ]
-      }
-    ]
+            name: "Laundry Stain Removers",
+          },
+        ],
+      },
+    ],
   },
   {
-    "name": "Hosiery",
-    "children": [
+    name: "Hosiery",
+    children: [
       {
-        "name": "Pantyhose/Nylons"
+        name: "Pantyhose/Nylons",
       },
       {
-        "name": "Socks"
+        name: "Socks",
       },
       {
-        "name": "Tights"
-      }
-    ]
+        name: "Tights",
+      },
+    ],
   },
   {
-    "name": "Household/Plastics/Storage",
-    "children": [
+    name: "Household/Plastics/Storage",
+    children: [
       {
-        "name": "Bottles"
+        name: "Bottles",
       },
       {
-        "name": "Drinkware"
+        name: "Drinkware",
       },
       {
-        "name": "Household Plastics"
+        name: "Household Plastics",
       },
       {
-        "name": "Kitchen Storage"
-      }
-    ]
+        name: "Kitchen Storage",
+      },
+    ],
   },
   {
-    "name": "Meal Kits"
+    name: "Meal Kits",
   },
   {
-    "name": "Miscellaneous General Merch"
+    name: "Miscellaneous General Merch",
   },
   {
-    "name": "Office/School Supplies",
-    "children": [
+    name: "Office/School Supplies",
+    children: [
       {
-        "name": "Children's Art Supplies"
+        name: "Children's Art Supplies",
       },
       {
-        "name": "Computer Disks Frmtd/UnFrmtd"
+        name: "Computer Disks Frmtd/UnFrmtd",
       },
       {
-        "name": "Office Products"
+        name: "Office Products",
       },
       {
-        "name": "Writing Instruments"
-      }
-    ]
+        name: "Writing Instruments",
+      },
+    ],
   },
   {
-    "name": "Over the Counter Medication",
-    "children": [
+    name: "Over the Counter Medication",
+    children: [
       {
-        "name": "Allergy & Sinus"
+        name: "Allergy & Sinus",
       },
       {
-        "name": "Cold, Cough & Flu"
+        name: "Cold, Cough & Flu",
       },
       {
-        "name": "Digestive Health"
+        name: "Digestive Health",
       },
       {
-        "name": "Pain Reliever"
-      }
-    ]
+        name: "Pain Reliever",
+      },
+    ],
   },
   {
-    "name": "Paper Products",
-    "children": [
+    name: "Paper Products",
+    children: [
       {
-        "name": "Facial Tissue"
+        name: "Facial Tissue",
       },
       {
-        "name": "Paper Napkins"
+        name: "Paper Napkins",
       },
       {
-        "name": "Paper Towels"
+        name: "Paper Towels",
       },
       {
-        "name": "Toilet Tissue"
-      }
-    ]
+        name: "Toilet Tissue",
+      },
+    ],
   },
   {
-    "name": "Personal Care",
-    "children": [
+    name: "Personal Care",
+    children: [
       {
-        "name": "Adult Incontinence"
+        name: "Adult Incontinence",
       },
       {
-        "name": "Cotton Balls & Swabs"
+        name: "Cotton Balls & Swabs",
       },
       {
-        "name": "Feminine Needs"
+        name: "Feminine Needs",
       },
       {
-        "name": "First Aid"
+        name: "First Aid",
       },
       {
-        "name": "Foot Care"
+        name: "Foot Care",
       },
       {
-        "name": "Health & Wellness Aids & Devices"
+        name: "Health & Wellness Aids & Devices",
       },
       {
-        "name": "Oral Care",
-        "children": [
+        name: "Oral Care",
+        children: [
           {
-            "name": "Denture Care"
+            name: "Denture Care",
           },
           {
-            "name": "Mouthwash & Dental Rinse"
+            name: "Mouthwash & Dental Rinse",
           },
           {
-            "name": "Toothbrushes & Dental Accessories"
+            name: "Toothbrushes & Dental Accessories",
           },
           {
-            "name": "Toothpaste"
-          }
-        ]
+            name: "Toothpaste",
+          },
+        ],
       },
       {
-        "name": "Vision Care"
-      }
-    ]
+        name: "Vision Care",
+      },
+    ],
   },
   {
-    "name": "Personal Cleansing",
-    "children": [
+    name: "Personal Cleansing",
+    children: [
       {
-        "name": "Bath Products"
+        name: "Bath Products",
       },
       {
-        "name": "Bath/Body Scrubbers/Massagers"
+        name: "Bath/Body Scrubbers/Massagers",
       },
       {
-        "name": "Deodorant"
+        name: "Deodorant",
       },
       {
-        "name": "Moist Towelettes"
+        name: "Moist Towelettes",
       },
       {
-        "name": "Soap"
-      }
-    ]
+        name: "Soap",
+      },
+    ],
   },
   {
-    "name": "Pest Control",
-    "children": [
+    name: "Pest Control",
+    children: [
       {
-        "name": "Outdoor Insect/Rodent Control Chem"
+        name: "Outdoor Insect/Rodent Control Chem",
       },
       {
-        "name": "Pest Control"
-      }
-    ]
+        name: "Pest Control",
+      },
+    ],
   },
   {
-    "name": "Pet Care",
-    "children": [
+    name: "Pet Care",
+    children: [
       {
-        "name": "Cat/Dog Litter"
+        name: "Cat/Dog Litter",
       },
       {
-        "name": "Pet Food"
+        name: "Pet Food",
       },
       {
-        "name": "Pet Supplies"
+        name: "Pet Supplies",
       },
       {
-        "name": "Pet Treats"
-      }
-    ]
+        name: "Pet Treats",
+      },
+    ],
   },
   {
-    "name": "Refrigerated",
-    "children": [
+    name: "Refrigerated",
+    children: [
       {
-        "name": "Refrigerated Meat Alternatives"
+        name: "Refrigerated Meat Alternatives",
       },
       {
-        "name": "Dairy",
-        "children": [
+        name: "Dairy",
+        children: [
           {
-            "name": "Butter & Margarine"
+            name: "Butter & Margarine",
           },
           {
-            "name": "Cheese"
+            name: "Cheese",
           },
           {
-            "name": "Cream & Creamers"
+            name: "Cream & Creamers",
           },
           {
-            "name": "Eggs"
+            name: "Eggs",
           },
           {
-            "name": "Milk"
+            name: "Milk",
           },
           {
-            "name": "Sour Cream"
+            name: "Sour Cream",
           },
           {
-            "name": "Yogurt"
-          }
-        ]
+            name: "Yogurt",
+          },
+        ],
       },
       {
-        "name": "Refrigerated Baked Goods"
+        name: "Refrigerated Baked Goods",
       },
       {
-        "name": "Refrigerated Beverages"
+        name: "Refrigerated Beverages",
       },
       {
-        "name": "Refrigerated Condiments"
+        name: "Refrigerated Condiments",
       },
       {
-        "name": "Refrigerated Desserts"
+        name: "Refrigerated Desserts",
       },
       {
-        "name": "Refrigerated Dough"
+        name: "Refrigerated Dough",
       },
       {
-        "name": "Refrigerated Meals"
+        name: "Refrigerated Meals",
       },
       {
-        "name": "Refrigerated Meats"
+        name: "Refrigerated Meats",
       },
       {
-        "name": "Refrigerated Miscellaneous"
-      }
-    ]
+        name: "Refrigerated Miscellaneous",
+      },
+    ],
   },
   {
-    "name": "Religious Items"
+    name: "Religious Items",
   },
   {
-    "name": "Shaving",
-    "children": [
+    name: "Shaving",
+    children: [
       {
-        "name": "Blades"
+        name: "Blades",
       },
       {
-        "name": "Razors"
+        name: "Razors",
       },
       {
-        "name": "Shaving Cream"
-      }
-    ]
+        name: "Shaving Cream",
+      },
+    ],
   },
   {
-    "name": "Skin Care",
-    "children": [
+    name: "Skin Care",
+    children: [
       {
-        "name": "Hand and Body Lotion"
+        name: "Hand and Body Lotion",
       },
       {
-        "name": "Skin Care"
+        name: "Skin Care",
       },
       {
-        "name": "Suntan Products"
-      }
-    ]
+        name: "Suntan Products",
+      },
+    ],
   },
   {
-    "name": "Toys and Games",
-    "children": [
+    name: "Toys and Games",
+    children: [
       {
-        "name": "Games"
+        name: "Games",
       },
       {
-        "name": "Outdoor Play Equipment"
+        name: "Outdoor Play Equipment",
       },
       {
-        "name": "Puzzles"
+        name: "Puzzles",
       },
       {
-        "name": "Toys"
-      }
-    ]
+        name: "Toys",
+      },
+    ],
   },
   {
-    "name": "Vitamins and Supplements",
-    "children": [
+    name: "Vitamins and Supplements",
+    children: [
       {
-        "name": "Digestive Supplements"
+        name: "Digestive Supplements",
       },
       {
-        "name": "Weightloss Supplements"
-      }
-    ]
+        name: "Weightloss Supplements",
+      },
+    ],
   },
   {
-    "name": "Water Treatment",
-    "children": [
+    name: "Water Treatment",
+    children: [
       {
-        "name": "Water Filter/Devices"
+        name: "Water Filter/Devices",
       },
       {
-        "name": "Water Softeners/Treatment"
-      }
-    ]
-  }
+        name: "Water Softeners/Treatment",
+      },
+    ],
+  },
 ];

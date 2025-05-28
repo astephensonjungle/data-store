@@ -119,7 +119,7 @@ export default function SearchPopover({
     return (
       <>
         {text.slice(0, idx)}
-        <span className="bg-yellow-200 font-semibold">
+        <span className="bg-[#DCD2BF] font-semibold">
           {text.slice(idx, idx + q.length)}
         </span>
         {text.slice(idx + q.length)}
@@ -182,7 +182,7 @@ export default function SearchPopover({
           type="text"
           autoFocus
           placeholder="Search for brands, categories, or saved audiences"
-          className="w-full px-6 py-4 rounded-full bg-neutral-100 text-base focus:outline-none focus:ring-2 focus:ring-black mb-6"
+          className="w-full px-0 py-2 mb-4 bg-[#f6f3ee] text-base text-neutral-800 placeholder:text-neutral-400 border-0 shadow-none focus:outline-none focus:ring-0"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -198,8 +198,8 @@ export default function SearchPopover({
                     key={b.id}
                     className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                       activeIndex === idx
-                        ? "bg-neutral-200"
-                        : "hover:bg-neutral-100"
+                        ? "bg-[#E9E3D4]"
+                        : "hover:bg-[#E9E3D4]"
                     }`}
                     onClick={() => handleBrandClick(b.name)}
                   >
@@ -226,8 +226,8 @@ export default function SearchPopover({
                     key={c.name}
                     className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                       activeIndex === idx + brandResults.length
-                        ? "bg-neutral-200"
-                        : "hover:bg-neutral-100"
+                        ? "bg-[#E9E3D4]"
+                        : "hover:bg-[#E9E3D4]"
                     }`}
                     onClick={() => handleCategoryClick(c.name)}
                   >
@@ -251,8 +251,8 @@ export default function SearchPopover({
                     className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
                       activeIndex ===
                       idx + brandResults.length + categoryResults.length
-                        ? "bg-neutral-200"
-                        : "hover:bg-neutral-100"
+                        ? "bg-[#E9E3D4]"
+                        : "hover:bg-[#E9E3D4]"
                     }`}
                     onClick={() => {
                       addRecent(a.name);
@@ -288,7 +288,7 @@ export default function SearchPopover({
               recent.map((r) => (
                 <div
                   key={r}
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 cursor-pointer"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#E9E3D4] cursor-pointer"
                   onClick={() => {
                     goToSearch(r);
                   }}
@@ -303,13 +303,6 @@ export default function SearchPopover({
             )}
           </div>
         )}
-        <button
-          className="absolute top-4 right-8 text-2xl text-neutral-400 hover:text-neutral-600"
-          onClick={() => onOpenChange(false)}
-          aria-label="Close search"
-        >
-          &times;
-        </button>
       </div>
     </div>
   );

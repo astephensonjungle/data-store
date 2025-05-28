@@ -98,7 +98,7 @@ export default function AudienceSheet({
             </div>
           </div>
           <div className="mt-auto flex justify-end">
-            <Button className="rounded-full px-8 py-3 text-lg bg-black text-white">
+            <Button className="rounded-full px-8 py-3 text-sm bg-black text-white">
               Activate audience
             </Button>
           </div>

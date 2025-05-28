@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import AudienceStatsCard from "@/components/AudienceStatsCard";
+import { Slider } from "@/components/ui/slider";
 
 type BrandSheetProps = {
   open: boolean;
@@ -38,8 +39,21 @@ export default function BrandSheet({
 }: BrandSheetProps) {
   const { addAudience } = useAudiences();
 
+  if (!brand) return null;
+
+  // Deterministic audience size as number
+  const deterministicSize = Number(
+    typeof brand.deterministicAudience.size === "string"
+      ? brand.deterministicAudience.size.replace(/[^\d.]/g, "")
+      : brand.deterministicAudience.size
+  );
+  const minExtendedSize = deterministicSize;
+  const maxExtendedSize = Math.round(deterministicSize * 8 * 10) / 10; // 1 decimal
+
   // Slider state for Extended Audience
-  const [size, setSize] = useState([23]);
+  const [size, setSize] = useState([minExtendedSize]);
+  const [lookback, setLookback] = useState([0]); // 0: 90 days, 1: 6 months, 2: 1 year, 3: All time
+  const lookbackOptions = ["90 days", "6 months", "1 year", "All time"];
   const [age, setAge] = useState([55]);
   const [gender, setGender] = useState([55]);
 
@@ -49,8 +63,6 @@ export default function BrandSheet({
   const [pendingAudience, setPendingAudience] = useState<null | {
     type: "Deterministic" | "Extended";
   }>();
-
-  if (!brand) return null;
 
   const handleSave = () => {
     setPendingAudience({ type: "Deterministic" });
@@ -113,15 +125,12 @@ export default function BrandSheet({
   };
 
   // Calculate propensity to purchase for Extended Audience (linear decrease)
-  const basePropensity =
-    brand?.deterministicAudience.propensityToPurchase ?? 100;
-  const baseSize = 1.2; // starting size in M
-  const slope = 4; // decrease per 1M
   const extendedSize = size[0];
-  const extendedPropensity = Math.max(
-    50,
-    basePropensity - slope * (extendedSize - baseSize)
-  );
+  const extendedPropensity = Math.round(
+    100 -
+      ((extendedSize - minExtendedSize) / (maxExtendedSize - minExtendedSize)) *
+        40
+  ); // 100% to 60%
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -162,11 +171,11 @@ export default function BrandSheet({
             </SheetDescription>
           </SheetHeader>
           {/* Both Audience Cards Side by Side */}
-          <div className="flex gap-6">
+          <div className="flex gap-6 h-full items-stretch">
             <AudienceStatsCard
               title="Deterministic Audience"
               size={brand.deterministicAudience.size}
-              propensity={brand.deterministicAudience.propensityToPurchase}
+              propensity={100}
               details={
                 <>
                   <div className="font-semibold mb-1">Audience Details</div>
@@ -174,22 +183,10 @@ export default function BrandSheet({
                     Understand who is in this audience based on real shopper
                     behavior.
                   </div>
-                  <Tabs defaultValue="90" className="my-2">
-                    <TabsList className="bg-neutral-200 rounded-full p-1 h-7">
-                      <TabsTrigger
-                        value="90"
-                        className="px-3 py-1 text-xs font-medium data-[state=active]:bg-black data-[state=active]:text-white rounded-full"
-                      >
-                        90 days
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="all"
-                        className="px-3 py-1 text-xs font-medium data-[state=active]:bg-black data-[state=active]:text-white rounded-full"
-                      >
-                        All time
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
+                  <div className="flex justify-between text-sm">
+                    <span>Lookback window</span>
+                    <span>90 days</span>
+                  </div>
                   <div className="flex justify-between text-sm">
                     <span>Size</span>
                     <span>{brand.deterministicAudience.size} consumers</span>
@@ -223,49 +220,31 @@ export default function BrandSheet({
                     Create a modeled audience that shares characteristics with
                     verified {brand.name} purchasers.
                   </div>
-                  <Tabs defaultValue="90" className="my-2">
-                    <TabsList className="bg-neutral-200 rounded-full p-1 h-7">
-                      <TabsTrigger
-                        value="90"
-                        className="px-3 py-1 text-xs font-medium data-[state=active]:bg-black data-[state=active]:text-white rounded-full"
-                      >
-                        90 days
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="all"
-                        className="px-3 py-1 text-xs font-medium data-[state=active]:bg-black data-[state=active]:text-white rounded-full"
-                      >
-                        All time
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
+                  <div className="bg-[#F4F1EB] mb-2 rounded-lg">
+                    <div className="flex justify-between text-xs mb-4">
+                      <span>Lookback window</span>
+                      <span>{lookbackOptions[lookback[0]]}</span>
+                    </div>
+                    <Slider
+                      min={0}
+                      max={3}
+                      step={1}
+                      value={lookback}
+                      onValueChange={setLookback}
+                      className="w-full mt-2"
+                    />
+                  </div>
                 </>
               }
               sliders={{
                 size: {
                   value: size,
                   onChange: setSize,
-                  min: 1.2,
-                  max: 30,
+                  min: minExtendedSize,
+                  max: maxExtendedSize,
                   step: 0.1,
                   label: "Size",
                   formatValue: (v) => `${v}M consumers`,
-                },
-                age: {
-                  value: age,
-                  onChange: setAge,
-                  min: 18,
-                  max: 80,
-                  step: 1,
-                  label: "Average age",
-                },
-                gender: {
-                  value: gender,
-                  onChange: setGender,
-                  min: 0,
-                  max: 100,
-                  step: 1,
-                  label: "Gender Distribution",
                 },
               }}
               onSave={handleSaveExtended}
