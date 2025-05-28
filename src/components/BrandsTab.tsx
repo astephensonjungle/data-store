@@ -109,8 +109,6 @@ export default function BrandsTab() {
     }
   };
 
-  const filterList = ["All brands", ...categories.map((cat) => cat.name)];
-
   // Build the breadcrumb path for the selected category
   const categoryPath = categoryFilter
     ? findCategoryPath(categories, categoryFilter) || [

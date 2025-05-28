@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { brands } from "@/data/brands";
 import { categories } from "@/data/categories";
 import { useAudiences } from "@/hooks/useAudiences";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface SearchPopoverProps {
@@ -23,7 +23,6 @@ export default function SearchPopover({
   const { audiences } = useAudiences();
   const [recent, setRecent] = useState<string[]>([]);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(-1);
