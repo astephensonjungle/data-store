@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import type { Brand } from "@/data/brands";
 import { useAudiences } from "@/hooks/useAudiences";
@@ -39,23 +38,20 @@ export default function BrandSheet({
 }: BrandSheetProps) {
   const { addAudience } = useAudiences();
 
-  if (!brand) return null;
-
+  // Move all hooks to the top, before any early return
   // Deterministic audience size as number
   const deterministicSize = Number(
-    typeof brand.deterministicAudience.size === "string"
-      ? brand.deterministicAudience.size.replace(/[^\d.]/g, "")
-      : brand.deterministicAudience.size
+    typeof brand?.deterministicAudience.size === "string"
+      ? brand?.deterministicAudience.size.replace(/[^\d.]/g, "")
+      : brand?.deterministicAudience.size
   );
-  const minExtendedSize = deterministicSize;
-  const maxExtendedSize = Math.round(deterministicSize * 8 * 10) / 10; // 1 decimal
+  const minExtendedSize = deterministicSize || 0;
+  const maxExtendedSize = Math.round((deterministicSize || 0) * 8 * 10) / 10; // 1 decimal
 
   // Slider state for Extended Audience
   const [size, setSize] = useState([minExtendedSize]);
   const [lookback, setLookback] = useState([0]); // 0: 90 days, 1: 6 months, 2: 1 year, 3: All time
   const lookbackOptions = ["90 days", "6 months", "1 year", "All time"];
-  const [age, setAge] = useState([55]);
-  const [gender, setGender] = useState([55]);
 
   // Dialog state for naming the audience
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -63,6 +59,8 @@ export default function BrandSheet({
   const [pendingAudience, setPendingAudience] = useState<null | {
     type: "Deterministic" | "Extended";
   }>();
+
+  if (!brand) return null;
 
   const handleSave = () => {
     setPendingAudience({ type: "Deterministic" });
@@ -111,8 +109,8 @@ export default function BrandSheet({
           lookbackWindow: brand.deterministicAudience.lookbackWindow,
           propensityToPurchase: Number(extendedPropensity.toFixed(1)),
           averageIncome: "$161k",
-          averageAge: age[0],
-          genderDistribution: `${gender[0]}% Male / ${100 - gender[0]}% Female`,
+          averageAge: brand.deterministicAudience.averageAge, // Use deterministic value
+          genderDistribution: `${brand.deterministicAudience.genderDistribution.male}% Male / ${brand.deterministicAudience.genderDistribution.female}% Female`, // Use deterministic value
         },
       });
     }
@@ -128,7 +126,8 @@ export default function BrandSheet({
   const extendedSize = size[0];
   const extendedPropensity = Math.round(
     100 -
-      ((extendedSize - minExtendedSize) / (maxExtendedSize - minExtendedSize)) *
+      ((extendedSize - minExtendedSize) /
+        (maxExtendedSize - minExtendedSize || 1)) *
         40
   ); // 100% to 60%
 
