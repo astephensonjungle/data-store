@@ -3,13 +3,20 @@ import React, { useState } from "react";
 import Link from "next/link";
 import SearchPopover from "@/components/SearchPopover";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 export default function TopBar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Sync searchQuery state with the URL's search param
+  React.useEffect(() => {
+    const urlSearch = searchParams.get("search") || "";
+    setSearchQuery(urlSearch);
+  }, [searchParams]);
 
   return (
     <header className="w-full flex items-center justify-between px-8 py-4 bg-[#f6f3ee] fixed top-0 left-0 h-20 z-40">
