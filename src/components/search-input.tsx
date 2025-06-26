@@ -1,6 +1,7 @@
 "use client";
 
 import { useDebounce } from "@uidotdev/usehooks";
+import { usePathname } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
@@ -14,6 +15,12 @@ export function SearchInput() {
 	useEffect(() => {
 		setSearchText(debouncedValue);
 	}, [debouncedValue]);
+
+	const pathname = usePathname();
+
+	if (!pathname.includes("/discover")) {
+		return null;
+	}
 
 	return (
 		<Input

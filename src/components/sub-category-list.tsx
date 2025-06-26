@@ -1,7 +1,8 @@
 "use client";
 
 import { api } from "@/trpc/react";
-import { BrandsList } from "./brands-list";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { AudiencesList } from "./audiences-list";
 import { Button } from "./ui/button";
 
 export function SubCategoryList({ baseCategorySlug, searchText }: { baseCategorySlug: string; searchText: string }) {
@@ -11,14 +12,15 @@ export function SubCategoryList({ baseCategorySlug, searchText }: { baseCategory
 			baseCategorySlug,
 			searchText,
 		},
-		{ getNextPageParam: (lastPage) => lastPage.nextCursor },
+		{ getNextPageParam: (lastPage) => lastPage.nextCursor, placeholderData: (prev) => prev },
 	);
 
 	const subCategories = data?.pages.flatMap((page) => page.items) ?? [];
 	const nextCursor = data?.pages[data.pages.length - 1]?.nextCursor;
+	const [parentAnimationRef] = useAutoAnimate();
 
 	return (
-		<div className="flex flex-col divide-y">
+		<div className="flex flex-col divide-y" ref={parentAnimationRef}>
 			{subCategories.map((subCategory) => (
 				<div key={subCategory.slug} className="flex w-full overflow-x-auto py-4">
 					<div className="sticky left-0 w-64 flex-none bg-background p-6">
@@ -28,7 +30,7 @@ export function SubCategoryList({ baseCategorySlug, searchText }: { baseCategory
 						</h2>
 						<p className="mt-2 text-[#BDAD8C] text-xl">{subCategory.totalBrands} brands</p>
 					</div>
-					<BrandsList searchText={searchText} subCategorySlug={subCategory.slug} initialData={subCategory.brands} />
+					<AudiencesList searchText={searchText} subCategorySlug={subCategory.slug} initialData={subCategory.brands} />
 				</div>
 			))}
 

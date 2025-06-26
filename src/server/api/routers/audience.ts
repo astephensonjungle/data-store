@@ -1,11 +1,12 @@
 import data from "@/data.json";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { TRPCError } from "@trpc/server";
 import Fuse from "fuse.js";
 import z from "zod";
 
-type Brand = (typeof data.brands)[number];
+type Audience = (typeof data.brands)[number];
 
-export const brandRouter = createTRPCRouter({
+export const audienceRouter = createTRPCRouter({
 	list: publicProcedure
 		.input(
 			z.object({
@@ -20,7 +21,7 @@ export const brandRouter = createTRPCRouter({
 
 			const allBrandsForCategory = data.brands.filter((brand) => brand.subCategories.includes(categorySlug));
 
-			let brandsToPaginate: Brand[] = allBrandsForCategory;
+			let brandsToPaginate: Audience[] = allBrandsForCategory;
 
 			if (searchText && searchText.trim().length > 0) {
 				const categoryFuse = new Fuse(allBrandsForCategory, {
@@ -43,4 +44,26 @@ export const brandRouter = createTRPCRouter({
 				nextCursor,
 			};
 		}),
+
+	listRelated: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+		const { slug } = input;
+
+		const audience = data.brands.find((brand) => brand.slug === slug);
+		const subCategories = audience?.subCategories;
+
+		return data.brands
+			.filter((brand) => brand.subCategories.some((subCategory) => subCategories?.includes(subCategory)))
+			.filter((_, index) => index < 10);
+	}),
+	get: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+		const { slug } = input;
+
+		const brand = data.brands.find((brand) => brand.slug === slug);
+
+		if (!brand) {
+			throw new TRPCError({ code: "NOT_FOUND", message: "Brand not found" });
+		}
+
+		return brand;
+	}),
 });
