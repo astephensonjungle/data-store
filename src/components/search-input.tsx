@@ -27,7 +27,7 @@ export function SearchInput() {
 			value={localValue}
 			onChange={(e) => setLocalValue(e.target.value)}
 			placeholder="Search..."
-			className="w-[400px]"
+			className="h-12 w-full max-w-2xl rounded-full border border-border bg-secondary px-4"
 		/>
 	);
 }
