@@ -13,7 +13,9 @@ export function SearchInput() {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		setSearchText(debouncedValue);
+		if (searchText !== debouncedValue && searchText != null) {
+			setSearchText(debouncedValue);
+		}
 	}, [debouncedValue]);
 
 	const pathname = usePathname();

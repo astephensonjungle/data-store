@@ -51,7 +51,7 @@ export const subCategoryRouter = createTRPCRouter({
 						where: audienceWhere,
 						take: brandsPerCategoryLimit,
 						orderBy: {
-							deterministicCus: "desc",
+							name: "asc",
 						},
 					},
 					_count: {

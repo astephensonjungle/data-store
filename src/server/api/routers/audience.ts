@@ -1,5 +1,7 @@
 import data from "@/data.json";
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import { AudienceType, LookbackWindow } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 import z from "zod";
 
 export const audienceRouter = createTRPCRouter({
@@ -90,4 +92,127 @@ export const audienceRouter = createTRPCRouter({
 
 		return audiences;
 	}),
+	saveAudience: protectedProcedure
+		.input(
+			z.object({
+				lookbackWindow: z.nativeEnum(LookbackWindow),
+				audienceType: z.nativeEnum(AudienceType),
+				audienceId: z.string(),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			const { lookbackWindow, audienceType, audienceId } = input;
+
+			const audience = await ctx.db.audience.findUnique({
+				where: { id: audienceId },
+			});
+
+			if (!audience) {
+				throw new TRPCError({ code: "NOT_FOUND", message: "Audience not found" });
+			}
+
+			const savedAudience = await ctx.db.savedAudience.findFirst({
+				where: {
+					userId: ctx.session.user.id,
+					audienceId,
+					audienceType,
+					lookbackWindow,
+				},
+			});
+
+			if (savedAudience) {
+				return ctx.db.savedAudience.delete({
+					where: {
+						id: savedAudience.id,
+					},
+				});
+			}
+
+			return ctx.db.savedAudience.create({
+				data: {
+					lookbackWindow,
+					audienceType,
+					audience: {
+						connect: {
+							id: audienceId,
+						},
+					},
+					user: {
+						connect: { id: ctx.session.user.id },
+					},
+				},
+			});
+		}),
+	listSaved: protectedProcedure
+		.input(z.object({ audienceType: z.nativeEnum(AudienceType).nullish() }))
+		.query(async ({ input, ctx }) => {
+			const { audienceType } = input;
+
+			return ctx.db.savedAudience.findMany({
+				where: {
+					userId: ctx.session.user.id,
+					audienceType: audienceType ? audienceType : undefined,
+				},
+				include: {
+					audience: {
+						include: {
+							leafCategory: {
+								include: {
+									baseCategory: true,
+								},
+							},
+						},
+					},
+				},
+			});
+		}),
+	isSaved: protectedProcedure
+		.input(
+			z.object({
+				audienceId: z.string(),
+				audienceType: z.nativeEnum(AudienceType),
+				lookbackWindow: z.nativeEnum(LookbackWindow),
+			}),
+		)
+		.query(async ({ input, ctx }) => {
+			const { audienceId, audienceType, lookbackWindow } = input;
+
+			const savedAudience = await ctx.db.savedAudience.findFirst({
+				where: {
+					userId: ctx.session.user.id,
+					audienceType,
+					lookbackWindow,
+					audienceId,
+				},
+			});
+
+			return !!savedAudience;
+		}),
+	getSavedAudience: protectedProcedure
+		.input(
+			z.object({
+				id: z.string(),
+			}),
+		)
+		.query(async ({ input, ctx }) => {
+			const { id } = input;
+
+			return ctx.db.savedAudience.findUnique({
+				where: {
+					userId: ctx.session.user.id,
+					id,
+				},
+				include: {
+					audience: {
+						include: {
+							leafCategory: {
+								include: {
+									baseCategory: true,
+								},
+							},
+						},
+					},
+				},
+			});
+		}),
 });

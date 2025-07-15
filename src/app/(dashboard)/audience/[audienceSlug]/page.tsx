@@ -1,8 +1,6 @@
 import { AudienceAccordion } from "@/components/audience-accordion";
-import { AudienceCard } from "@/components/audience-card";
 import { ConsumersInformationCard } from "@/components/consumers-information-card";
 import { RelatedProductsList } from "@/components/related-products-list";
-import { getSavedAudienceSlugs } from "@/lib/audience-cookies";
 import { HydrateClient, api } from "@/trpc/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -14,8 +12,6 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 		api.audience.get({ slug: audienceSlug }),
 		api.audience.listRelated({ slug: audienceSlug }),
 	]);
-
-	const savedAudienceSlugs = await getSavedAudienceSlugs();
 
 	if (!audience) {
 		return notFound();
@@ -44,10 +40,10 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 									</p>
 								</div>
 							</div>
-							<AudienceAccordion />
+							<AudienceAccordion audience={audience} />
 						</div>
 
-						<ConsumersInformationCard audience={audience} isSaved={savedAudienceSlugs.includes(audience.slug)} />
+						<ConsumersInformationCard audience={audience} />
 					</div>
 
 					<div>
@@ -57,11 +53,11 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 
 					<div>
 						<h2 className="mb-3 font-medium text-2xl">Explore more audiences</h2>
-						<div className="flex w-full gap-2 overflow-x-auto">
+						{/* <div className="flex w-full gap-2 overflow-x-auto">
 							{relatedAudiences.map((audience) => (
 								<AudienceCard audience={audience} key={audience.slug} />
 							))}
-						</div>
+						</div> */}
 					</div>
 				</main>
 			</div>

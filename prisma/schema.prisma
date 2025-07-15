@@ -8,16 +8,27 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
+enum LookbackWindow {
+  DAYS_90
+  YEARS_1
+}
+
+enum AudienceType {
+  EXTENDED
+  DETERMINISTIC
+}
+
 model Audience {
-  id               String   @id @default(uuid())
-  createdAt        DateTime @default(now())
-  slug             String   @unique
-  name             String
-  logoUrl          String
-  deterministicCus Int
-  extendedCus      Int
-  lookbackWindow   String
-  audienceType     String
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  slug      String   @unique
+  name      String
+  logoUrl   String
+
+  audienceExtended90days      Int
+  audienceExtended1year       Int
+  audienceDeterministic90days Int
+  audienceDeterministic1year  Int
 
   age18to24  Int
   age25to34  Int
@@ -82,18 +93,8 @@ model AudienceRetailerDistribution {
   @@id([audienceId, retailerId])
 }
 
-enum LookbackWindow {
-  DAYS_90
-  YEARS_1
-}
-
-enum AudienceType {
-  EXTENDED
-  DETERMINISTIC
-}
-
 model SavedAudience {
-  id             String         @id
+  id             String         @id @default(uuid())
   audienceId     String
   audience       Audience       @relation(fields: [audienceId], references: [id])
   lookbackWindow LookbackWindow

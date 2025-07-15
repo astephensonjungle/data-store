@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Skeleton } from "./ui/skeleton";
 
-export default function AudienceSheet({
+export function SavedAudienceSheet({
 	savedAudienceId,
 	open,
 	onOpenChange,
