@@ -1,11 +1,28 @@
 import { SubCategoryList } from "@/components/sub-category-list";
-import data from "@/data.json";
-import { brandsSearchParams } from "@/lib/search-params";
+import { audiencesSearchParams } from "@/lib/search-params";
+import { db } from "@/server/db";
 import { HydrateClient, api } from "@/trpc/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+	title: "Discover",
+	description: "Discover",
+};
+
 export async function generateStaticParams() {
-	return data.baseCategories.map((category) => ({
+	const baseCategories = await db.baseCategory.findMany({
+		select: {
+			slug: true,
+		},
+		orderBy: {
+			name: "asc",
+		},
+	});
+
+	return baseCategories.map((category) => ({
 		category: category.slug,
 	}));
 }
@@ -14,10 +31,13 @@ export default async function DiscoverPage({
 	searchParams,
 	params,
 }: { params: Promise<{ category: string }>; searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-	const { searchText } = brandsSearchParams(await searchParams);
+	const { searchText } = audiencesSearchParams(await searchParams);
 	const { category } = await params;
 
-	const baseCategory = data.baseCategories.find((c) => c.slug === category);
+	const baseCategory =
+		category === "all"
+			? { name: "All", slug: "all", id: "all", emoji: "🔍" }
+			: await api.baseCategory.get({ slug: category });
 
 	if (!baseCategory) {
 		return notFound();

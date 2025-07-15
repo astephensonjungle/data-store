@@ -2,8 +2,10 @@ import { AudienceAccordion } from "@/components/audience-accordion";
 import { AudienceCard } from "@/components/audience-card";
 import { ConsumersInformationCard } from "@/components/consumers-information-card";
 import { RelatedProductsList } from "@/components/related-products-list";
+import { getSavedAudienceSlugs } from "@/lib/audience-cookies";
 import { HydrateClient, api } from "@/trpc/server";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 export default async function AudiencePage({ params }: { params: Promise<{ audienceSlug: string }> }) {
 	const { audienceSlug } = await params;
@@ -13,6 +15,12 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 		api.audience.listRelated({ slug: audienceSlug }),
 	]);
 
+	const savedAudienceSlugs = await getSavedAudienceSlugs();
+
+	if (!audience) {
+		return notFound();
+	}
+
 	return (
 		<HydrateClient>
 			<div className="h-[calc(100vh-64px)] overflow-y-auto p-8">
@@ -21,11 +29,11 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 						<div className="flex flex-1 flex-col gap-6">
 							<div className="flex flex-row gap-4">
 								<Image
-									src={`/assets/brand-images/${audience.slug}.webp`}
+									src={audience.logoUrl ?? ""}
 									alt={audience.name}
 									width={200}
 									height={200}
-									className="h-[200px] w-[200px] flex-none overflow-hidden rounded-2xl"
+									className="aspect-square h-[200px] w-[200px] flex-none overflow-hidden rounded-2xl object-cover"
 								/>
 								<div className="flex flex-col gap-2">
 									<h2 className="font-medium text-xl">{audience.name}</h2>
@@ -39,7 +47,7 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 							<AudienceAccordion />
 						</div>
 
-						<ConsumersInformationCard audience={audience} />
+						<ConsumersInformationCard audience={audience} isSaved={savedAudienceSlugs.includes(audience.slug)} />
 					</div>
 
 					<div>

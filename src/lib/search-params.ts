@@ -1,7 +1,7 @@
 import { createLoader, parseAsString } from "nuqs/server";
 
-export const brandsSearchParams = createLoader({
+export const audiencesSearchParams = createLoader({
 	searchText: parseAsString.withDefault(""),
 });
 
-export type BrandsSearchParams = Awaited<ReturnType<typeof brandsSearchParams>>;
+export type AudiencesSearchParams = Awaited<ReturnType<typeof audiencesSearchParams>>;

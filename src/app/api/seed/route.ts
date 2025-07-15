@@ -1,7 +1,6 @@
+import { auth } from "@/server/auth";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { PromisePool } from "@supercharge/promise-pool";
 import { generateObject } from "ai";
-import { NextResponse } from "next/server";
 import slugify from "slugify";
 import z from "zod";
 
@@ -79,45 +78,35 @@ export async function generateBrands(subCategory: SubCategory) {
 	return brandsList.brands;
 }
 
+async function generateEmoji(name: string) {
+	const { object: emoji } = await generateObject({
+		model: google.languageModel("gemini-2.0-flash-lite"),
+		schema: z.object({
+			emoji: z.string(),
+		}),
+		prompt: `
+      I want you to generate an emoji for a category.
+      The emoji should be a single character.
+      The name of the category is ${name}.
+    `,
+	});
+
+	return emoji.emoji;
+}
+
 export async function GET() {
-	const subcategories = await generateSubCategories();
+	const users = [
+		{ name: "Filip Kantedal", email: "filip@shader.se", password: "password" },
+		{ name: "Ashley Stephenson", email: "ashley.stephenson@jungledesign.co", password: "password" },
+	];
 
-	console.log(`Generating brands for ${subcategories.length} subcategories...`);
-
-	const { results: unstructuredBrands, errors } = await PromisePool.for(subcategories)
-		.withConcurrency(2)
-		.process(async (subCategory, index) => {
-			try {
-				console.log(`Generating brands for subcategory ${subCategory.name} ${index + 1} of ${subcategories.length}`);
-				const newBrands = await generateBrands(subCategory);
-				return newBrands.map((brand) => ({
-					name: brand,
-					slug: slugify(brand, { lower: true, strict: true }),
-					subCategory,
-				}));
-			} catch (error) {
-				console.error(error);
-				return [];
-			}
+	for (const user of users) {
+		await auth.api.signUpEmail({
+			body: {
+				email: user.email,
+				name: user.name,
+				password: user.password,
+			},
 		});
-
-	console.log("errors", errors.length);
-
-	const brands: Brand[] = [];
-	for (const unstructuredBrand of unstructuredBrands.flat()) {
-		const existingBrand = brands.find((b) => b.slug === unstructuredBrand.slug);
-		if (existingBrand) {
-			existingBrand.subCategories.push(unstructuredBrand.subCategory.slug);
-		} else {
-			brands.push({
-				name: unstructuredBrand.name,
-				slug: unstructuredBrand.slug,
-				logoUrl: null,
-				domain: null,
-				subCategories: [unstructuredBrand.subCategory.slug],
-			});
-		}
 	}
-
-	return NextResponse.json({ baseCategories, subcategories, brands });
 }

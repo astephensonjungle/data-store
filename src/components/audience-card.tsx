@@ -14,11 +14,11 @@ export function AudienceCard({
 			className="flex w-40 flex-none flex-col rounded-lg border bg-[#F4F0EB] p-3 transition-opacity hover:opacity-70"
 		>
 			<Image
-				src={`/assets/brand-images/${audience.slug}.webp`}
+				src={audience.logoUrl ?? ""}
 				alt={audience.name}
 				width={256}
 				height={256}
-				className="overflow-hidden rounded-lg"
+				className="aspect-square overflow-hidden rounded-lg object-cover"
 			/>
 			<div className="mt-3 truncate text-center font-medium text-base">{audience.name}</div>
 			<div className="mt-1 text-center font-medium text-[#BDAD8C] text-lg uppercase">

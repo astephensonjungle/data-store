@@ -1,0 +1,164 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model Audience {
+  id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  slug             String   @unique
+  name             String
+  logoUrl          String
+  deterministicCus Int
+  extendedCus      Int
+  lookbackWindow   String
+  audienceType     String
+
+  age18to24  Int
+  age25to34  Int
+  age35to44  Int
+  age45to54  Int
+  age55to64  Int
+  age65plus  Int
+  ageUnknown Int
+
+  genderMale    Int
+  genderFemale  Int
+  genderUnknown Int
+
+  associatedGtins String[]
+
+  leafCategoryId String
+  leafCategory   LeafCategory @relation(fields: [leafCategoryId], references: [id])
+
+  retailerDistribution AudienceRetailerDistribution[]
+  savedAudiences       SavedAudience[]
+
+  @@index([leafCategoryId])
+}
+
+model BaseCategory {
+  id             String         @id @default(uuid())
+  createdAt      DateTime       @default(now())
+  slug           String         @unique
+  name           String         @unique
+  emoji          String         @default("🌱")
+  leafCategories LeafCategory[]
+}
+
+model LeafCategory {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  slug           String       @unique
+  name           String
+  baseCategoryId String
+  emoji          String       @default("🌱")
+  baseCategory   BaseCategory @relation(fields: [baseCategoryId], references: [id])
+  audiences      Audience[]
+
+  @@unique([name, baseCategoryId])
+  @@index([baseCategoryId])
+}
+
+model Retailer {
+  id                   String                         @id @default(uuid())
+  slug                 String                         @unique
+  name                 String                         @unique
+  audienceDistribution AudienceRetailerDistribution[]
+}
+
+model AudienceRetailerDistribution {
+  count      Int
+  audienceId String
+  audience   Audience @relation(fields: [audienceId], references: [id])
+  retailerId String
+  retailer   Retailer @relation(fields: [retailerId], references: [id])
+
+  @@id([audienceId, retailerId])
+}
+
+enum LookbackWindow {
+  DAYS_90
+  YEARS_1
+}
+
+enum AudienceType {
+  EXTENDED
+  DETERMINISTIC
+}
+
+model SavedAudience {
+  id             String         @id
+  audienceId     String
+  audience       Audience       @relation(fields: [audienceId], references: [id])
+  lookbackWindow LookbackWindow
+  audienceType   AudienceType
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id             String          @id
+  name           String
+  email          String
+  emailVerified  Boolean
+  image          String?
+  createdAt      DateTime
+  updatedAt      DateTime
+  sessions       Session[]
+  accounts       Account[]
+  savedAudiences SavedAudience[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}

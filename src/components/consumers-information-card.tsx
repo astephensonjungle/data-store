@@ -1,14 +1,16 @@
 "use client";
 
+import { getSavedAudienceSlugs, removeAudienceSlug, saveAudienceSlug } from "@/lib/audience-cookies";
 import { seededRandom } from "@/lib/seeded-random";
 import type { RouterOutputs } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 
-type Audience = RouterOutputs["audience"]["get"];
+type Audience = NonNullable<RouterOutputs["audience"]["get"]>;
 
-export function ConsumersInformationCard({ audience }: { audience: Audience }) {
+export function ConsumersInformationCard({ audience, isSaved }: { audience: Audience; isSaved: boolean }) {
 	const [lookback, setLookback] = useState<"90days" | "1year">("90days");
 	const [audienceSize, setAudienceSize] = useState<"deterministic" | "extended">("deterministic");
 
@@ -23,6 +25,23 @@ export function ConsumersInformationCard({ audience }: { audience: Audience }) {
 	} else if (lookback === "1year" && audienceSize === "extended") {
 		consumers = Math.round(consumers * 12);
 	}
+
+	const router = useRouter();
+	const [isSaving, setIsSaving] = useState(false);
+	const handleToggleSaveAudience = async () => {
+		setIsSaving(true);
+		const isSaved = await getSavedAudienceSlugs();
+		if (isSaved.includes(audience.slug)) {
+			removeAudienceSlug(audience.slug);
+		} else {
+			saveAudienceSlug(audience.slug);
+		}
+
+		router.refresh();
+
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		setIsSaving(false);
+	};
 
 	return (
 		<div className="flex h-fit w-[400px] flex-none flex-col gap-6 rounded-2xl bg-background-secondary p-5">
@@ -52,7 +71,9 @@ export function ConsumersInformationCard({ audience }: { audience: Audience }) {
 			</div>
 
 			<div className="flex flex-col gap-2">
-				<Button size="lg">Save Audience</Button>
+				<Button size="lg" onClick={handleToggleSaveAudience} disabled={isSaving}>
+					{isSaving ? "Saving..." : isSaved ? "Remove from saved" : "Save audience"}
+				</Button>
 				<Button size="lg" variant="outline" className="border-border bg-background-secondary">
 					Request a custom audience
 				</Button>

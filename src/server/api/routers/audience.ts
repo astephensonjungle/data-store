@@ -1,10 +1,6 @@
 import data from "@/data.json";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
-import Fuse from "fuse.js";
 import z from "zod";
-
-type Audience = (typeof data.brands)[number];
 
 export const audienceRouter = createTRPCRouter({
 	list: publicProcedure
@@ -13,35 +9,52 @@ export const audienceRouter = createTRPCRouter({
 				categorySlug: z.string(),
 				searchText: z.string().optional(),
 				limit: z.number().min(1).max(50).default(20),
-				cursor: z.number().min(0).default(0),
+				cursor: z.string().optional(),
 			}),
 		)
-		.query(async ({ input }) => {
+		.query(async ({ input, ctx }) => {
 			const { categorySlug, searchText, limit, cursor } = input;
 
-			const allBrandsForCategory = data.brands.filter((brand) => brand.subCategories.includes(categorySlug));
+			// const allBrandsForCategory = data.brands.filter((brand) => brand.subCategories.includes(categorySlug));
 
-			let brandsToPaginate: Audience[] = allBrandsForCategory;
+			// let brandsToPaginate: Audience[] = allBrandsForCategory;
 
-			if (searchText && searchText.trim().length > 0) {
-				const categoryFuse = new Fuse(allBrandsForCategory, {
-					keys: ["name"],
-					threshold: 0.3,
-					includeScore: true,
-				});
-				brandsToPaginate = categoryFuse.search(searchText).map((result) => result.item);
-			}
+			// if (searchText && searchText.trim().length > 0) {
+			// 	const categoryFuse = new Fuse(allBrandsForCategory, {
+			// 		keys: ["name"],
+			// 		threshold: 0.3,
+			// 		includeScore: true,
+			// 	});
+			// 	brandsToPaginate = categoryFuse.search(searchText).map((result) => result.item);
+			// }
 
-			const paginatedBrands = brandsToPaginate.slice(cursor, cursor + limit);
+			// const paginatedBrands = brandsToPaginate.slice(cursor, cursor + limit);
 
-			let nextCursor: number | null = cursor + paginatedBrands.length;
-			if (nextCursor >= brandsToPaginate.length) {
-				nextCursor = null;
-			}
+			// let nextCursor: number | null = cursor + paginatedBrands.length;
+			// if (nextCursor >= brandsToPaginate.length) {
+			// 	nextCursor = null;
+			// }
+
+			const paginatedAudiences = await ctx.db.audience.findMany({
+				where: {
+					leafCategory: {
+						slug: categorySlug,
+					},
+					name: {
+						contains: searchText,
+						mode: "insensitive",
+					},
+				},
+				orderBy: {
+					name: "asc",
+				},
+				skip: cursor ? 1 : 0,
+				take: limit,
+			});
 
 			return {
-				items: paginatedBrands,
-				nextCursor,
+				items: paginatedAudiences,
+				nextCursor: paginatedAudiences.length === limit ? paginatedAudiences[paginatedAudiences.length - 1].slug : null,
 			};
 		}),
 
@@ -55,15 +68,26 @@ export const audienceRouter = createTRPCRouter({
 			.filter((brand) => brand.subCategories.some((subCategory) => subCategories?.includes(subCategory)))
 			.filter((_, index) => index < 10);
 	}),
-	get: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+	get: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input, ctx }) => {
 		const { slug } = input;
 
-		const brand = data.brands.find((brand) => brand.slug === slug);
+		return ctx.db.audience.findUnique({
+			where: {
+				slug,
+			},
+		});
+	}),
+	listFromSlugs: publicProcedure.input(z.object({ slugs: z.array(z.string()) })).query(async ({ input, ctx }) => {
+		const { slugs } = input;
 
-		if (!brand) {
-			throw new TRPCError({ code: "NOT_FOUND", message: "Brand not found" });
-		}
+		const audiences = ctx.db.audience.findMany({
+			where: {
+				slug: {
+					in: slugs,
+				},
+			},
+		});
 
-		return brand;
+		return audiences;
 	}),
 });
