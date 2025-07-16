@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { SavedAudienceSheet } from "./saved-audience-sheet";
+import AudienceSheet from "./audience-sheet";
 import { Button } from "./ui/button";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 
@@ -121,7 +121,7 @@ export function ConsumersInformationCard({ audience }: { audience: Audience }) {
 					</Button>
 				</div>
 			</div>
-			<SavedAudienceSheet savedAudienceId={savedAudienceId} open={isSheetOpen} onOpenChange={setSheetOpen} />
+			<AudienceSheet savedAudienceId={savedAudienceId} open={isSheetOpen} onOpenChange={setSheetOpen} />
 		</>
 	);
 }
