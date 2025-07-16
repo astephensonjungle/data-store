@@ -49,8 +49,8 @@ export async function RelatedProductsList({
 							<div className="line-clamp-3 text-left text-muted-foreground text-sm">{product.description}</div>
 						</button>
 					</SheetTrigger>
-					<SheetContent className="flex flex-col gap-0 bg-background p-0 text-sm sm:max-w-lg">
-						<div className="flex h-1/3 items-center justify-center bg-white p-8">
+					<SheetContent className="flex flex-col gap-0 overflow-y-auto bg-background p-0 text-sm sm:max-w-lg">
+						<div className="flex items-center justify-center bg-white p-8">
 							{product.imageUrl && (
 								<Image
 									src={product.imageUrl}
@@ -68,7 +68,7 @@ export async function RelatedProductsList({
 							)}
 						</div>
 
-						<div className="flex flex-col gap-4 overflow-y-auto p-8">
+						<div className="flex flex-col gap-4 p-8">
 							<SheetHeader className="p-0">
 								<SheetTitle className="text-3xl">{product.title}</SheetTitle>
 							</SheetHeader>

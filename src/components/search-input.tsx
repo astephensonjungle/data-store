@@ -13,7 +13,7 @@ export function SearchInput() {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (searchText !== debouncedValue && searchText != null) {
+		if (searchText !== debouncedValue && debouncedValue != null) {
 			setSearchText(debouncedValue);
 		}
 	}, [debouncedValue]);
