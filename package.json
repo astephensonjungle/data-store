@@ -11,7 +11,8 @@
     "db:studio": "prisma studio",
     "dev": "next dev",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.19",
