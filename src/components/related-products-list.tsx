@@ -57,7 +57,7 @@ export async function RelatedProductsList({
 									alt={product.title}
 									width={200}
 									height={200}
-									className="aspect-square w-full object-cover"
+									className="aspect-video w-full object-contain"
 								/>
 							)}
 							{!product.imageUrl && (

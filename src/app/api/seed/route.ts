@@ -1,6 +1,7 @@
 import { auth } from "@/server/auth";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
+import { NextResponse } from "next/server";
 import z from "zod";
 
 const google = createGoogleGenerativeAI();
@@ -99,8 +100,9 @@ export async function GET() {
 	}
 
 	const users = [
-		{ name: "Filip Kantedal", email: "filip@shader.se", password: "password" },
-		{ name: "Ashley Stephenson", email: "ashley.stephenson@jungledesign.co", password: "password" },
+		{ name: "Chuck Ennis", email: "chuck.ennis@becausal.com", password: "password123" },
+		// { name: "Filip Kantedal", email: "filip@shader.se", password: "password" },
+		// { name: "Ashley Stephenson", email: "ashley.stephenson@jungledesign.co", password: "password" },
 	];
 
 	for (const user of users) {
@@ -112,4 +114,6 @@ export async function GET() {
 			},
 		});
 	}
+
+	return NextResponse.json({ message: "Users created" });
 }
