@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.19",
+    "@fast-csv/parse": "^5.0.2",
     "@formkit/auto-animate": "^0.8.2",
     "@google/genai": "^1.5.1",
     "@prisma/adapter-neon": "^6.11.1",

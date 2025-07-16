@@ -25,7 +25,7 @@ export function Header() {
 		},
 		{
 			label: "My audiences",
-			href: "/my-audiences",
+			href: "/my-audiences/all",
 			active: pathname.startsWith("/my-audiences"),
 		},
 	];

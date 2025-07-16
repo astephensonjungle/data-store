@@ -83,6 +83,20 @@ model Retailer {
   audienceDistribution AudienceRetailerDistribution[]
 }
 
+model Product {
+  id               String  @id @default(uuid())
+  upc              String  @unique
+  title            String
+  description      String
+  size             String?
+  count            Int?
+  dimensions       String?
+  container        String?
+  sourceName       String?
+  sourceIdentifier String?
+  imageUrl         String?
+}
+
 model AudienceRetailerDistribution {
   count      Int
   audienceId String

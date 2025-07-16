@@ -1,4 +1,5 @@
 import { AudienceAccordion } from "@/components/audience-accordion";
+import { AudienceCard } from "@/components/audience-card";
 import { ConsumersInformationCard } from "@/components/consumers-information-card";
 import { RelatedProductsList } from "@/components/related-products-list";
 import { HydrateClient, api } from "@/trpc/server";
@@ -16,6 +17,9 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 	if (!audience) {
 		return notFound();
 	}
+
+	const gtins = audience.associatedGtins.filter((gtin) => gtin !== "42");
+	const relatedProducts = await api.audience.relatedProducts({ gtins, audienceSlug });
 
 	return (
 		<HydrateClient>
@@ -46,18 +50,20 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 						<ConsumersInformationCard audience={audience} />
 					</div>
 
-					<div>
-						<h2 className="mb-3 font-medium text-2xl">Explore sample products from this brand</h2>
-						<RelatedProductsList />
-					</div>
+					{relatedProducts.length > 0 && (
+						<div>
+							<h2 className="mb-3 font-medium text-2xl">Explore sample products from this brand</h2>
+							<RelatedProductsList products={relatedProducts} />
+						</div>
+					)}
 
 					<div>
 						<h2 className="mb-3 font-medium text-2xl">Explore more audiences</h2>
-						{/* <div className="flex w-full gap-2 overflow-x-auto">
+						<div className="flex w-full gap-2 overflow-x-auto">
 							{relatedAudiences.map((audience) => (
 								<AudienceCard audience={audience} key={audience.slug} />
 							))}
-						</div> */}
+						</div>
 					</div>
 				</main>
 			</div>

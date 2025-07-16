@@ -7,7 +7,7 @@ export default function MyAudiencesLayout({ children }: { children: React.ReactN
 				<h2 className="font-bold text-2xl">My audiences</h2>
 				<MyAudiencesSidebar />
 			</div>
-			<div className="grid flex-1 grid-cols-1 items-start gap-6 overflow-y-auto p-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+			<div className="grid flex-1 grid-cols-1 content-start gap-6 overflow-y-auto p-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 				{children}
 			</div>
 		</main>

@@ -1,4 +1,3 @@
-import { seededRandom } from "@/lib/seeded-random";
 import type { RouterOutputs } from "@/trpc/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +21,7 @@ export function AudienceCard({
 			/>
 			<div className="mt-3 truncate text-center font-medium text-base">{audience.name}</div>
 			<div className="mt-1 text-center font-medium text-[#BDAD8C] text-lg uppercase">
-				{Math.floor(seededRandom(audience.slug) * 50) + 1}M
+				{Math.floor(audience.audienceExtended1year / 1000000)}M
 			</div>
 		</Link>
 	);

@@ -1,4 +1,3 @@
-import data from "@/data.json";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { AudienceType, LookbackWindow } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
@@ -60,15 +59,34 @@ export const audienceRouter = createTRPCRouter({
 			};
 		}),
 
-	listRelated: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+	listRelated: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input, ctx }) => {
 		const { slug } = input;
 
-		const audience = data.brands.find((brand) => brand.slug === slug);
-		const subCategories = audience?.subCategories;
+		const audience = await ctx.db.audience.findUnique({
+			where: {
+				slug,
+			},
+			include: {
+				leafCategory: true,
+			},
+		});
 
-		return data.brands
-			.filter((brand) => brand.subCategories.some((subCategory) => subCategories?.includes(subCategory)))
-			.filter((_, index) => index < 10);
+		if (!audience) {
+			throw new TRPCError({ code: "NOT_FOUND", message: "Audience not found" });
+		}
+
+		return ctx.db.audience.findMany({
+			where: {
+				leafCategory: {
+					slug: audience.leafCategory.slug,
+				},
+				slug: { not: slug },
+			},
+			orderBy: {
+				name: "asc",
+			},
+			take: 10,
+		});
 	}),
 	get: publicProcedure.input(z.object({ slug: z.string() })).query(async ({ input, ctx }) => {
 		const { slug } = input;
@@ -214,5 +232,32 @@ export const audienceRouter = createTRPCRouter({
 					},
 				},
 			});
+		}),
+	relatedProducts: publicProcedure
+		.input(z.object({ gtins: z.array(z.string()), audienceSlug: z.string() }))
+		.query(async ({ input, ctx }) => {
+			const { gtins, audienceSlug } = input;
+
+			const audience = await ctx.db.audience.findUnique({
+				where: { slug: audienceSlug },
+			});
+
+			if (!audience) {
+				return [];
+			}
+
+			const products = await ctx.db.product.findMany({
+				where: {
+					upc: {
+						in: gtins,
+					},
+				},
+				orderBy: {
+					imageUrl: "asc",
+				},
+				take: 10,
+			});
+
+			return products;
 		}),
 });

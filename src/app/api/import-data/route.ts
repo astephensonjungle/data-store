@@ -361,6 +361,5 @@ export async function GET() {
 
 	return NextResponse.json({
 		message: "Data imported successfully.",
-		count: rows.length,
 	});
 }
