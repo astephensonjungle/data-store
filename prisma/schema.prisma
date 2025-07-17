@@ -21,6 +21,7 @@ enum AudienceType {
 model Audience {
   id           String   @id @default(uuid())
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
   slug         String   @unique
   name         String
   logoUrl      String
@@ -85,9 +86,10 @@ model Retailer {
 }
 
 model Product {
-  id               String  @id @default(uuid())
-  slug             String? @unique
-  upc              String  @unique
+  id               String   @id @default(uuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+  upc              String   @unique
   title            String
   description      String
   size             String?
@@ -95,6 +97,9 @@ model Product {
   dimensions       String?
   container        String?
   sourceName       String?
+  price            Float?
+  claims           String[]
+  sources          String[]
   sourceIdentifier String?
   imageUrl         String?
   imageBlurhash    String?

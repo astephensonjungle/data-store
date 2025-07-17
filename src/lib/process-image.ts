@@ -25,7 +25,7 @@ export async function processImage({
 		}
 	} else if (type === "product") {
 		const product = await db.product.findUnique({
-			where: { slug },
+			where: { upc: slug },
 		});
 		if (product) {
 			existingImageUrl = product.imageUrl;

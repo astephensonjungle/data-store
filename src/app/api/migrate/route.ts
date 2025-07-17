@@ -1,4 +1,4 @@
-import { importAudiences } from "@/lib/import-audiences";
+import { db } from "@/server/db";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { NextResponse } from "next/server";
@@ -47,7 +47,15 @@ export async function GET() {
 
 	await doc.loadInfo();
 
-	await importAudiences(doc);
+	// await importAudiences(doc);
+	// await importProducts(doc);
+	const products = await db.product.findMany({
+		where: {
+			imageUrl: { startsWith: "/assets/products" },
+		},
+	});
+
+	console.log(products.map((product) => product.imageUrl).length);
 
 	return NextResponse.json({
 		success: true,
