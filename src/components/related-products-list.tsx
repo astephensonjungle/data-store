@@ -29,6 +29,8 @@ export async function RelatedProductsList({
 								{product.imageUrl && (
 									<Image
 										src={product.imageUrl}
+										placeholder={product.imageBlurhash ? "blur" : undefined}
+										blurDataURL={product.imageBlurhash ?? undefined}
 										alt={product.title}
 										width={100}
 										height={100}

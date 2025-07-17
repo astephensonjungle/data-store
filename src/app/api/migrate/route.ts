@@ -1,3 +1,4 @@
+import { processImage } from "@/lib/process-image";
 import { db } from "@/server/db";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
@@ -55,7 +56,26 @@ export async function GET() {
 		},
 	});
 
-	console.log(products.map((product) => product.imageUrl).length);
+	let index = 0;
+	for (const product of products) {
+		console.log("updating product", product.title, index, "of", products.length);
+		index++;
+		if (!product.imageUrl) continue;
+
+		const { url, blurDataURL } = await processImage({
+			imageUrl: product.imageUrl,
+			slug: product.upc,
+			type: "product",
+		});
+
+		await db.product.update({
+			where: { id: product.id },
+			data: {
+				imageUrl: url,
+				imageBlurhash: blurDataURL,
+			},
+		});
+	}
 
 	return NextResponse.json({
 		success: true,

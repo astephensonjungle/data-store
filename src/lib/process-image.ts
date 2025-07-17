@@ -1,6 +1,8 @@
 import { db } from "@/server/db";
 import { BlobNotFoundError, head, put } from "@vercel/blob";
 import { encode } from "blurhash";
+import fs from "node:fs/promises";
+import path from "node:path";
 import sharp from "sharp";
 
 export async function processImage({
@@ -81,18 +83,26 @@ export async function processImage({
 		}
 	}
 
-	const response = await fetch(imageUrl, {
-		headers: {
-			"User-Agent":
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-		},
-	});
-	if (!response.ok) {
-		throw new Error(`Failed to download image from ${imageUrl}: ${response.statusText}`);
-	}
-	const imageBuffer = await response.arrayBuffer();
+	let imageBuffer: Buffer;
 
-	const image = sharp(Buffer.from(imageBuffer));
+	if (imageUrl.startsWith("/assets")) {
+		const filePath = path.join(process.cwd(), "public", imageUrl);
+		imageBuffer = await fs.readFile(filePath);
+	} else {
+		const response = await fetch(imageUrl, {
+			headers: {
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+			},
+		});
+		if (!response.ok) {
+			throw new Error(`Failed to download image from ${imageUrl}: ${response.statusText}`);
+		}
+		const buffer = await response.arrayBuffer();
+		imageBuffer = Buffer.from(buffer);
+	}
+
+	const image = sharp(imageBuffer);
 	const { data, info } = await image.clone().raw().ensureAlpha().toBuffer({ resolveWithObject: true });
 
 	const blurhash = encode(new Uint8ClampedArray(data), info.width, info.height, 4, 4);
