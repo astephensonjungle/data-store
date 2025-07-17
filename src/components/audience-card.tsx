@@ -17,6 +17,8 @@ export function AudienceCard({
 				alt={audience.name}
 				width={256}
 				height={256}
+				placeholder={audience.logoBlurhash ? "blur" : undefined}
+				blurDataURL={audience.logoBlurhash ?? undefined}
 				className="aspect-square overflow-hidden rounded-lg object-cover"
 			/>
 			<div className="mt-3 truncate text-center font-medium text-base">{audience.name}</div>

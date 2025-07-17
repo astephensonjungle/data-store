@@ -19,11 +19,12 @@ enum AudienceType {
 }
 
 model Audience {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  slug      String   @unique
-  name      String
-  logoUrl   String
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  slug         String   @unique
+  name         String
+  logoUrl      String
+  logoBlurhash String?
 
   audienceExtended90days      Int
   audienceExtended1year       Int
@@ -85,6 +86,7 @@ model Retailer {
 
 model Product {
   id               String  @id @default(uuid())
+  slug             String? @unique
   upc              String  @unique
   title            String
   description      String
@@ -95,6 +97,7 @@ model Product {
   sourceName       String?
   sourceIdentifier String?
   imageUrl         String?
+  imageBlurhash    String?
 }
 
 model AudienceRetailerDistribution {
