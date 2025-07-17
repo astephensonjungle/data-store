@@ -1,4 +1,5 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { blurhashToDataUrl } from "@/lib/blurhas-to-data-url";
 import type { RouterOutputs } from "@/trpc/react";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
@@ -30,7 +31,7 @@ export async function RelatedProductsList({
 									<Image
 										src={product.imageUrl}
 										placeholder={product.imageBlurhash ? "blur" : undefined}
-										blurDataURL={product.imageBlurhash ?? undefined}
+										blurDataURL={product.imageBlurhash ? blurhashToDataUrl(product.imageBlurhash) : undefined}
 										alt={product.title}
 										width={100}
 										height={100}

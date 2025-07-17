@@ -135,7 +135,10 @@ export async function importAudiences(doc: GoogleSpreadsheet) {
 
 			const retailerToAdd = retailersToAdd.find((r) => r.slug === retailerSlug);
 			if (!retailerToAdd) {
-				retailersToAdd.push({ slug: retailerSlug, name: retailerName });
+				const formattedRetailerName = retailerName
+					.replaceAll("_", " ")
+					.replace(/(^\w{1})|(\s+\w{1})/g, (letter: string) => letter.toUpperCase());
+				retailersToAdd.push({ slug: retailerSlug, name: formattedRetailerName });
 			}
 		}
 

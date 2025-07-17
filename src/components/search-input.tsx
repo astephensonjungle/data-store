@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 
 export function SearchInput() {
-	const [searchText, setSearchText] = useQueryState("searchText", { shallow: false });
+	const [searchText_, setSearchText] = useQueryState("searchText", { shallow: false });
+	const searchText = searchText_ ?? "";
 	const [localValue, setLocalValue] = useState(searchText ?? "");
 	const debouncedValue = useDebounce(localValue, 500);
 

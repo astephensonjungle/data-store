@@ -95,6 +95,13 @@ export const audienceRouter = createTRPCRouter({
 			where: {
 				slug,
 			},
+			include: {
+				retailerDistribution: {
+					include: {
+						retailer: true,
+					},
+				},
+			},
 		});
 	}),
 	listFromSlugs: publicProcedure.input(z.object({ slugs: z.array(z.string()) })).query(async ({ input, ctx }) => {

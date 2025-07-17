@@ -1,4 +1,3 @@
-import { processImage } from "@/lib/process-image";
 import { db } from "@/server/db";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
@@ -50,29 +49,43 @@ export async function GET() {
 
 	// await importAudiences(doc);
 	// await importProducts(doc);
-	const products = await db.product.findMany({
-		where: {
-			imageUrl: { startsWith: "/assets/products" },
-		},
-	});
 
-	let index = 0;
-	for (const product of products) {
-		console.log("updating product", product.title, index, "of", products.length);
-		index++;
-		if (!product.imageUrl) continue;
+	// const products = await db.product.findMany({
+	// 	where: {
+	// 		imageUrl: { startsWith: "/assets/products" },
+	// 	},
+	// });
 
-		const { url, blurDataURL } = await processImage({
-			imageUrl: product.imageUrl,
-			slug: product.upc,
-			type: "product",
-		});
+	// let index = 0;
+	// for (const product of products) {
+	// 	console.log("updating product", product.title, index, "of", products.length);
+	// 	index++;
+	// 	if (!product.imageUrl) continue;
 
-		await db.product.update({
-			where: { id: product.id },
+	// 	const { url, blurDataURL } = await processImage({
+	// 		imageUrl: product.imageUrl,
+	// 		slug: product.upc,
+	// 		type: "product",
+	// 	});
+
+	// 	await db.product.update({
+	// 		where: { id: product.id },
+	// 		data: {
+	// 			imageUrl: url,
+	// 			imageBlurhash: blurDataURL,
+	// 		},
+	// 	});
+	// }
+
+	const retailers = await db.retailer.findMany();
+	for (const retailer of retailers) {
+		const formattedRetailerName = retailer.name
+			.replaceAll("_", " ")
+			.replace(/(^\w{1})|(\s+\w{1})/g, (letter: string) => letter.toUpperCase());
+		await db.retailer.update({
+			where: { id: retailer.id },
 			data: {
-				imageUrl: url,
-				imageBlurhash: blurDataURL,
+				name: formattedRetailerName,
 			},
 		});
 	}

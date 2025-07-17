@@ -1,38 +1,20 @@
 "use client";
 
 import type { RouterOutputs } from "@/trpc/react";
+import { ImageIcon } from "lucide-react";
+import Image from "next/image";
 import { Pie, PieChart } from "recharts";
 import { PropensityChart } from "./propensity-chart";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 
-// const retilers = [
-// 	{
-// 		name: "Walmart",
-// 		image: "/assets/retailers/walmart.png",
-// 		spend: "$12,400,000",
-// 	},
-// 	{
-// 		name: "Target",
-// 		image: "/assets/retailers/target.png",
-// 		spend: "$10,850,000",
-// 	},
-// 	{
-// 		name: "Whole Foods",
-// 		image: "/assets/retailers/whole_foods.png",
-// 		spend: "$9,858,424",
-// 	},
-// 	{
-// 		name: "Kroger",
-// 		image: "/assets/retailers/kroger.png",
-// 		spend: "$6,788,302",
-// 	},
-// 	{
-// 		name: "Wegmans",
-// 		image: "/assets/retailers/wegmans.png",
-// 		spend: "$5,850,000",
-// 	},
-// ];
+const retilersImages = {
+	walmart: "/assets/retailers/walmart.png",
+	target: "/assets/retailers/target.png",
+	wholefoods: "/assets/retailers/whole_foods.png",
+	kroger: "/assets/retailers/kroger.png",
+	wegmans: "/assets/retailers/wegmans.png",
+};
 
 type Audience = NonNullable<RouterOutputs["audience"]["get"]>;
 
@@ -149,26 +131,33 @@ export function AudienceAccordion({ audience }: { audience: Audience }) {
 					<PropensityChart audience={audience} />
 				</AccordionContent>
 			</AccordionItem>
-			{/* <AccordionItem value="item-2">
+			<AccordionItem value="item-3">
 				<AccordionTrigger>Total spend by Retailer</AccordionTrigger>
 				<AccordionContent>
 					<div className="flex flex-col divide-y">
-						{retilers.map((retailer) => (
-							<div className="flex flex-row items-center gap-2 p-3" key={retailer.name}>
-								<Image
-									src={retailer.image}
-									alt={retailer.name}
-									width={32}
-									height={32}
-									className="h-[32px] w-[32px] rounded-lg"
-								/>
-								<div className="ml-2 flex-1 text-sm">{retailer.name}</div>
-								<div className="text-sm">{retailer.spend}</div>
+						{audience.retailerDistribution.map((distribution) => (
+							<div className="flex flex-row items-center gap-2 p-3" key={distribution.retailer.slug}>
+								{retilersImages[distribution.retailer.slug as keyof typeof retilersImages] && (
+									<Image
+										src={retilersImages[distribution.retailer.slug as keyof typeof retilersImages]}
+										alt={distribution.retailer.name}
+										width={32}
+										height={32}
+										className="h-[32px] w-[32px] rounded-lg object-contain"
+									/>
+								)}
+								{!retilersImages[distribution.retailer.slug as keyof typeof retilersImages] && (
+									<div className="flex h-[32px] w-[32px] items-center justify-center rounded-lg bg-muted">
+										<ImageIcon className="size-4 text-muted-foreground" />
+									</div>
+								)}
+								<div className="ml-2 flex-1 text-sm">{distribution.retailer.name}</div>
+								<div className="text-sm">{distribution.count}</div>
 							</div>
 						))}
 					</div>
 				</AccordionContent>
-			</AccordionItem> */}
+			</AccordionItem>
 		</Accordion>
 	);
 }

@@ -2,13 +2,15 @@
 
 import type { RouterOutputs } from "@/trpc/react";
 import { AudienceType, LookbackWindow } from "@prisma/client";
-import Image from "next/image";
 import { useState } from "react";
 import AudienceSheet from "./audience-sheet";
 
 type SavedAudience = RouterOutputs["audience"]["listSaved"][number];
 
-export default function AudienceCardDetailed({ savedAudience }: { savedAudience: SavedAudience }) {
+export default function AudienceCardDetailed({
+	savedAudience,
+	children,
+}: { savedAudience: SavedAudience; children: React.ReactNode }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const audience = savedAudience.audience;
 
@@ -38,15 +40,7 @@ export default function AudienceCardDetailed({ savedAudience }: { savedAudience:
 	return (
 		<>
 			<button type="button" onClick={() => setIsOpen(true)} className="flex h-fit flex-col gap-4 rounded-lg border p-4">
-				<div className="rounded-lg bg-white">
-					<Image
-						src={audience.logoUrl}
-						alt={audience.name}
-						width={300}
-						height={160}
-						className="h-40 w-full rounded-lg object-cover"
-					/>
-				</div>
+				<div className="rounded-lg bg-white">{children}</div>
 				<div>
 					<div className="mb-1 font-semibold text-foreground text-lg">{audience.name}</div>
 					<div className="mt-2 border-[#e5e0d5] border-t pt-2">

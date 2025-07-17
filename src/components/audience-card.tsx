@@ -1,3 +1,4 @@
+import { blurhashToDataUrl } from "@/lib/blurhas-to-data-url";
 import type { RouterOutputs } from "@/trpc/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export function AudienceCard({
 				width={256}
 				height={256}
 				placeholder={audience.logoBlurhash ? "blur" : undefined}
-				blurDataURL={audience.logoBlurhash ?? undefined}
+				blurDataURL={audience.logoBlurhash ? blurhashToDataUrl(audience.logoBlurhash) : undefined}
 				className="aspect-square overflow-hidden rounded-lg object-cover"
 			/>
 			<div className="mt-3 truncate text-center font-medium text-base">{audience.name}</div>
