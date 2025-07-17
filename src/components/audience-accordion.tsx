@@ -141,6 +141,7 @@ export function AudienceAccordion({ audience }: { audience: Audience }) {
 									<Image
 										src={retilersImages[distribution.retailer.slug as keyof typeof retilersImages]}
 										alt={distribution.retailer.name}
+										placeholder="blur"
 										width={32}
 										height={32}
 										className="h-[32px] w-[32px] rounded-lg object-contain"
