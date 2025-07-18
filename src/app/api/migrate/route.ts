@@ -1,3 +1,5 @@
+import { importAudiences } from "@/lib/import-audiences";
+import { importProducts } from "@/lib/import-products";
 import { db } from "@/server/db";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
@@ -47,8 +49,8 @@ export async function GET() {
 
 	await doc.loadInfo();
 
-	// await importAudiences(doc);
-	// await importProducts(doc);
+	await importAudiences(doc);
+	await importProducts(doc);
 
 	// const products = await db.product.findMany({
 	// 	where: {

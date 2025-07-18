@@ -53,7 +53,7 @@ const metadataSchema = z.object({
 });
 
 export async function importAudiences(doc: GoogleSpreadsheet) {
-	const sheet = doc.sheetsByTitle["datastore_demonstration_data.csv"];
+	const sheet = doc.sheetsByTitle.datastore_master_data;
 
 	if (!sheet) throw new Error("Sheet not found");
 

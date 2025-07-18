@@ -3,7 +3,7 @@ import type { GoogleSpreadsheet } from "google-spreadsheet";
 import { processImage } from "./process-image";
 
 export async function importProducts(doc: GoogleSpreadsheet) {
-	const sheet = doc.sheetsByTitle["Harmonya Data - Coffe and Tea"];
+	const sheet = doc.sheetsByTitle.harmonya_master_data;
 
 	if (!sheet) throw new Error("Sheet not found");
 

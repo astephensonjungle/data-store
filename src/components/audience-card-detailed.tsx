@@ -42,7 +42,9 @@ export default function AudienceCardDetailed({
 			<button type="button" onClick={() => setIsOpen(true)} className="flex h-fit flex-col gap-4 rounded-lg border p-4">
 				<div className="rounded-lg bg-white">{children}</div>
 				<div>
-					<div className="mb-1 font-semibold text-foreground text-lg">{audience.name}</div>
+					<div className="mb-1 font-semibold text-foreground text-lg">
+						{audience.name} - {savedAudience.audienceType === AudienceType.DETERMINISTIC ? "Deterministic" : "Extended"}
+					</div>
 					<div className="mt-2 border-[#e5e0d5] border-t pt-2">
 						<div className="flex justify-between py-2 text-sm">
 							<span className="font-semibold text-neutral-700">Brand</span>
@@ -50,10 +52,8 @@ export default function AudienceCardDetailed({
 						</div>
 						<div className="border-[#e5e0d5] border-t" />
 						<div className="flex justify-between py-2 text-sm">
-							<span className="font-semibold text-neutral-700">Type</span>
-							<span className="text-foreground">
-								{savedAudience.audienceType === AudienceType.DETERMINISTIC ? "Deterministic" : "Extended"}
-							</span>
+							<span className="font-semibold text-neutral-700">Audience Type</span>
+							<span className="text-foreground">Prefabricated</span>
 						</div>
 						<div className="border-[#e5e0d5] border-t" />
 						<div className="flex justify-between py-2 text-sm">

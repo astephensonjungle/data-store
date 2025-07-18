@@ -51,7 +51,8 @@ export default function AudienceSheet({
 			<SheetContent className="w-full max-w-xl text-sm">
 				<SheetHeader>
 					<SheetTitle className="font-medium text-xl">
-						{isLoading ? <Skeleton className="h-6 w-48" /> : audience?.name}
+						{isLoading ? <Skeleton className="h-6 w-48" /> : audience?.name} -{" "}
+						{savedAudience?.audienceType === AudienceType.DETERMINISTIC ? "Deterministic" : "Extended"}
 					</SheetTitle>
 				</SheetHeader>
 				<div className="flex h-full flex-1 flex-col gap-4 p-6 pt-0">
@@ -98,13 +99,7 @@ export default function AudienceSheet({
 								<div className="flex justify-between py-2">
 									<div className="font-medium">Audience Type</div>
 									<div className="text-foreground">
-										{isLoading ? (
-											<Skeleton className="h-5 w-28" />
-										) : savedAudience?.audienceType === AudienceType.DETERMINISTIC ? (
-											"Deterministic"
-										) : (
-											"Extended"
-										)}
+										{isLoading ? <Skeleton className="h-5 w-28" /> : "Prefabricated"}
 									</div>
 								</div>
 								<div className="flex justify-between py-2">
