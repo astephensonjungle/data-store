@@ -113,8 +113,25 @@ export function ConsumersInformationCard({ audience }: { audience: Audience }) {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<Button size="lg" onClick={handleToggleSaveAudience} disabled={isSaving || isSavedPending}>
-						{isSaving ? "Saving..." : isSaved ? "Remove from saved" : "Save audience"}
+					{isSaved && (
+						<Button
+							size="lg"
+							onClick={() => {
+								setSavedAudienceId(isSaved.id);
+								setSheetOpen(true);
+							}}
+						>
+							Manage Audience
+						</Button>
+					)}
+					<Button
+						size="lg"
+						onClick={handleToggleSaveAudience}
+						disabled={isSaving || isSavedPending}
+						variant={isSaved ? "outline" : "default"}
+						className={isSaved ? "border-border bg-background-secondary" : ""}
+					>
+						{isSaving ? (isSaved ? "Removing..." : "Saving...") : isSaved ? "Remove from saved" : "Save audience"}
 					</Button>
 					<Button size="lg" variant="outline" className="border-border bg-background-secondary">
 						Request a custom audience

@@ -1,7 +1,7 @@
 "use client";
 
 import type { RouterOutputs } from "@/trpc/react";
-import { Pie, PieChart } from "recharts";
+import { Bar, BarChart, CartesianGrid, Cell, XAxis } from "recharts";
 import { PropensityChart } from "./propensity-chart";
 import { RetailerDistribution } from "./retailer-distribution";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
@@ -76,37 +76,33 @@ export function AudienceAccordion({ audience }: { audience: Audience }) {
 					<div className="flex flex-row items-start justify-around py-3">
 						<div className="flex flex-col items-center gap-2">
 							<div className="font-medium">Age Distribution</div>
-							<ChartContainer config={ageChartConfig} className="mx-auto aspect-square h-[200px]">
-								<PieChart>
-									<ChartTooltip content={<ChartTooltipContent nameKey="age" hideLabel />} />
-									<Pie data={ageData} dataKey="value" nameKey="age" innerRadius={30} />
-								</PieChart>
+							<ChartContainer config={ageChartConfig} className="h-[200px] w-[350px]">
+								<BarChart data={ageData}>
+									<CartesianGrid vertical={false} />
+									<XAxis dataKey="age" tickLine={false} tickMargin={10} axisLine={false} />
+									<ChartTooltip content={<ChartTooltipContent />} />
+									<Bar dataKey="value" radius={4}>
+										{ageData.map((entry) => (
+											<Cell key={entry.age} fill={entry.fill} />
+										))}
+									</Bar>
+								</BarChart>
 							</ChartContainer>
-							<div className="grid grid-cols-3 gap-x-8 gap-y-1 text-xs">
-								{Object.entries(ageChartConfig).map(([key, config]) => (
-									<div key={key} className="flex items-center gap-1.5">
-										<span className="h-2 w-2" style={{ backgroundColor: config.color }} />
-										<span>{config.label}</span>
-									</div>
-								))}
-							</div>
 						</div>
 						<div className="flex flex-col items-center gap-2">
 							<div className="font-medium">Gender Distribution</div>
-							<ChartContainer config={genderChartConfig} className="mx-auto aspect-square h-[200px]">
-								<PieChart>
-									<ChartTooltip content={<ChartTooltipContent nameKey="gender" hideLabel />} />
-									<Pie data={genderData} dataKey="value" nameKey="gender" innerRadius={30} />
-								</PieChart>
+							<ChartContainer config={genderChartConfig} className="h-[200px] w-[200px]">
+								<BarChart data={genderData}>
+									<CartesianGrid vertical={false} />
+									<XAxis dataKey="gender" tickLine={false} tickMargin={10} axisLine={false} />
+									<ChartTooltip content={<ChartTooltipContent />} />
+									<Bar dataKey="value" radius={4}>
+										{genderData.map((entry) => (
+											<Cell key={entry.gender} fill={entry.fill} />
+										))}
+									</Bar>
+								</BarChart>
 							</ChartContainer>
-							<div className="flex flex-row gap-4 text-xs">
-								{Object.entries(genderChartConfig).map(([key, config]) => (
-									<div key={key} className="flex items-center gap-1.5">
-										<span className="h-2 w-2" style={{ backgroundColor: config.color }} />
-										<span>{config.label}</span>
-									</div>
-								))}
-							</div>
 						</div>
 					</div>
 				</AccordionContent>

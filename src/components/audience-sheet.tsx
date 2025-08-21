@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { AudienceType, LookbackWindow } from "@prisma/client";
 import { Badge } from "./ui/badge";
@@ -16,10 +17,11 @@ export default function AudienceSheet({
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 }) {
-	const { data: savedAudience, isLoading } = api.audience.getSavedAudience.useQuery(
-		{ id: savedAudienceId ?? "" },
-		{ enabled: !!savedAudienceId && open },
-	);
+	const {
+		data: savedAudience,
+		isLoading,
+		refetch,
+	} = api.audience.getSavedAudience.useQuery({ id: savedAudienceId ?? "" }, { enabled: !!savedAudienceId && open });
 
 	const audience = savedAudience?.audience;
 
@@ -45,6 +47,12 @@ export default function AudienceSheet({
 	) {
 		audienceCount = audience?.audienceExtended1year ?? 0;
 	}
+
+	const acitvateAudience = api.audience.setIsActivated.useMutation({
+		onSuccess: async () => {
+			await refetch();
+		},
+	});
 
 	return (
 		<Sheet open={open && !!savedAudienceId} onOpenChange={onOpenChange}>
@@ -125,7 +133,14 @@ export default function AudienceSheet({
 							<div className="mt-3 flex flex-col divide-y">
 								<div className="flex justify-between py-2">
 									<div className="font-medium">Status</div>
-									<div className="text-foreground">Unknown</div>
+									<div
+										className={cn(
+											savedAudience?.isActivated ? "bg-[#ade357] text-[#2d3a0d]" : "bg-red-100 text-red-700",
+											"rounded-full px-3 py-1 font-medium text-sm",
+										)}
+									>
+										{savedAudience?.isActivated ? "Activated" : "Deactivated"}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -133,10 +148,18 @@ export default function AudienceSheet({
 
 					<div className="flex items-center justify-between gap-20 pb-6">
 						<div className="flex flex-col gap-1.5">
-							<h3 className="font-medium text-base">Activate Audience</h3>
+							<h3 className="font-medium text-base">Activation Details</h3>
 							<p className="text-muted-foreground text-sm">Via LiveRamp Connect and a Trade Desk Seat ID</p>
 						</div>
-						<Button size="lg">Activate Audience</Button>
+						<Button
+							onClick={() =>
+								acitvateAudience.mutate({ audienceId: savedAudienceId ?? "", isActivated: !savedAudience?.isActivated })
+							}
+							disabled={acitvateAudience.isPending}
+							size="lg"
+						>
+							{savedAudience?.isActivated ? "Deactivate Audience" : "Activate Audience"}
+						</Button>
 					</div>
 				</div>
 			</SheetContent>

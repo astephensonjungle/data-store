@@ -119,6 +119,7 @@ model SavedAudience {
   id             String         @id @default(uuid())
   audienceId     String
   audience       Audience       @relation(fields: [audienceId], references: [id])
+  isActivated    Boolean        @default(false)
   lookbackWindow LookbackWindow
   audienceType   AudienceType
   userId         String

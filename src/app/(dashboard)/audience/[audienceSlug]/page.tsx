@@ -53,7 +53,7 @@ export default async function AudiencePage({ params }: { params: Promise<{ audie
 					{relatedProducts.length > 0 && (
 						<div>
 							<h2 className="mb-3 font-medium text-2xl">Explore sample products from this brand</h2>
-							<RelatedProductsList products={relatedProducts} />
+							<RelatedProductsList products={relatedProducts} audienceSize={audience.audienceDeterministic90days} />
 						</div>
 					)}
 

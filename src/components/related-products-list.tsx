@@ -16,7 +16,8 @@ const ProductDetailBadge = ({ children }: { children: React.ReactNode }) => (
 
 export async function RelatedProductsList({
 	products,
-}: { products: NonNullable<RouterOutputs["audience"]["relatedProducts"]> }) {
+	audienceSize,
+}: { products: NonNullable<RouterOutputs["audience"]["relatedProducts"]>; audienceSize: number }) {
 	return (
 		<div className="flex w-full gap-2 overflow-x-auto">
 			{products.map((product) => (
@@ -75,8 +76,17 @@ export async function RelatedProductsList({
 							<SheetHeader className="p-0">
 								<SheetTitle className="text-3xl">{product.title}</SheetTitle>
 							</SheetHeader>
-							<div className="w-fit rounded-full bg-secondary px-2 py-1 font-medium text-foreground text-sm">
-								GTIN: {product.upc}
+							<div className="flex flex-row justify-between">
+								<div>
+									<div className="flex flex-col text-muted-foreground text-sm">GTIN</div>
+									<div className="font-semibold text-base">{product.upc}</div>
+								</div>
+								<div>
+									<div className="flex flex-col text-muted-foreground text-sm">90-day Audience Count</div>
+									<div className="font-semibold text-base">
+										{new Intl.NumberFormat("en-US").format(Math.floor(audienceSize / 20))}
+									</div>
+								</div>
 							</div>
 							<p className="text-muted-foreground">{product.description}</p>
 

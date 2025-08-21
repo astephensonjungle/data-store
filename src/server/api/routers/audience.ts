@@ -168,6 +168,20 @@ export const audienceRouter = createTRPCRouter({
 				},
 			});
 		}),
+	setIsActivated: protectedProcedure
+		.input(z.object({ audienceId: z.string(), isActivated: z.boolean() }))
+		.mutation(async ({ input, ctx }) => {
+			const { audienceId, isActivated } = input;
+
+			return ctx.db.savedAudience.update({
+				where: {
+					id: audienceId,
+				},
+				data: {
+					isActivated: isActivated,
+				},
+			});
+		}),
 	listSaved: protectedProcedure
 		.input(z.object({ audienceType: z.nativeEnum(AudienceType).nullish() }))
 		.query(async ({ input, ctx }) => {
@@ -211,7 +225,7 @@ export const audienceRouter = createTRPCRouter({
 				},
 			});
 
-			return !!savedAudience;
+			return savedAudience;
 		}),
 	getSavedAudience: protectedProcedure
 		.input(
