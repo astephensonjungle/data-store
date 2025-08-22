@@ -84,9 +84,17 @@ export function ConsumersInformationCard({ audience }: { audience: Audience }) {
 	return (
 		<>
 			<div className="flex h-fit w-[400px] flex-none flex-col gap-6 rounded-2xl bg-background-secondary p-5">
-				<div>
-					<div className="text-base">Consumers</div>
-					<div className="font-medium text-3xl">{new Intl.NumberFormat("en-US").format(consumers)}</div>
+				<div className="flex flex-row gap-12">
+					<div>
+						<div className="text-base">Consumers</div>
+						<div className="font-medium text-3xl">{new Intl.NumberFormat("en-US").format(consumers)}</div>
+					</div>
+					<div>
+						<div className="text-base">Households</div>
+						<div className="font-medium text-3xl">
+							{new Intl.NumberFormat("en-US").format(Math.floor(consumers * 0.48))}
+						</div>
+					</div>
 				</div>
 
 				<div className="flex flex-col gap-1">

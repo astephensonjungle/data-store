@@ -70,8 +70,14 @@ export function AudienceAccordion({ audience }: { audience: Audience }) {
 
 	return (
 		<Accordion type="single" collapsible>
+			<AccordionItem value="item-3">
+				<AccordionTrigger>Total spend by Retailer</AccordionTrigger>
+				<AccordionContent>
+					<RetailerDistribution audience={audience} />
+				</AccordionContent>
+			</AccordionItem>
 			<AccordionItem value="item-1">
-				<AccordionTrigger>Audience Snapshot</AccordionTrigger>
+				<AccordionTrigger>Demographics</AccordionTrigger>
 				<AccordionContent>
 					<div className="flex flex-row items-start justify-around py-3">
 						<div className="flex flex-col items-center gap-2">
@@ -116,12 +122,6 @@ export function AudienceAccordion({ audience }: { audience: Audience }) {
 						the trade-off between look-alike audience size and expected performance.
 					</p>
 					<PropensityChart audience={audience} />
-				</AccordionContent>
-			</AccordionItem>
-			<AccordionItem value="item-3">
-				<AccordionTrigger>Total spend by Retailer</AccordionTrigger>
-				<AccordionContent>
-					<RetailerDistribution audience={audience} />
 				</AccordionContent>
 			</AccordionItem>
 		</Accordion>
