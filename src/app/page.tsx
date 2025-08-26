@@ -29,7 +29,7 @@ export default function Home() {
 			</header>
 			<main className="flex flex-col">
 				<div className="relative h-[300px] w-full overflow-hidden bg-[#242323] px-4 md:h-[400px] md:px-6">
-					<div className="absolute inset-0 z-10 mx-auto flex w-full max-w-7xl items-end justify-start px-4 py-8 md:py-16 lg:px-0">
+					<div className="absolute inset-0 z-10 mx-auto flex w-full max-w-7xl items-end justify-start px-4 py-8 md:py-16">
 						<h1 className="font-normal text-6xl text-white">CPG Data Store</h1>
 					</div>
 					<Image
