@@ -43,7 +43,7 @@ export default function Home() {
 			</main>
 			<div className="w-full px-4 py-20 lg:px-6">
 				<div className="mx-auto flex w-full max-w-7xl flex-col gap-16">
-					<div className="text-3xl leading-snug lg:text-5xl">
+					<div className="text-xl leading-snug lg:text-2xl">
 						Welcome to MVP V1.0 of Becausal&apos;s CPG Data Store. Once complete, the entirety of our Purchase Dataset
 						is here for you (600 Categories, 8K Brands, 800K UPCs) ... all in one place. We believe it is the largest
 						freely searchable CPG purchase/transaction dataset of its kind. This early build is here for feedback -
@@ -60,12 +60,13 @@ export default function Home() {
 					<div className="flex items-center">
 						<div className="h-3 w-3 flex-none rounded-full bg-[#242323]" />
 						<div className="h-px flex-1 bg-[#242323]" />
-						<Button size="lg" className="border border-[#242323]" variant="outline">
-							Log in
+						<Button size="lg" className="border border-[#242323]" variant="outline" asChild>
+							<Link href="/sign-in">Log in</Link>
 						</Button>
 					</div>
 				</div>
 			</div>
+
 			<div className="w-full bg-[#242323] px-4 py-12 lg:px-6">
 				<div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-20 lg:flex-row">
 					<Image src="/glow.svg" alt="Glow" width={500} height={500} />
@@ -81,11 +82,18 @@ export default function Home() {
 						<div className="flex items-center">
 							<div className="h-3 w-3 flex-none rounded-full bg-[#F4EFE6]" />
 							<div className="h-px flex-1 bg-[#F4EFE6]" />
-							<Button size="lg" className="!text-[#242323] bg-[#F4EFE6]">
-								Log in
+							<Button size="lg" className="!text-[#242323] bg-[#F4EFE6] hover:bg-[#F4EFE6]" asChild>
+								<Link href="/sign-in">Log in</Link>
 							</Button>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div className="w-full px-3 lg:px-6">
+				<div className="mx-auto flex w-full max-w-7xl flex-col gap-8 py-16">
+					<h2 className="text-4xl text-[#242323]">Data Store Analysis</h2>
+					<Image src="/stats.png" alt="Stats" width={0} height={0} sizes="100vw" className="h-auto w-full" />
 				</div>
 			</div>
 		</div>
