@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { LogInIcon } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import Image from "next/image";
 import Link from "next/link";
+
 
 const logos = [
 	{
@@ -62,8 +63,8 @@ export default function Home() {
 				</div>
 			</header>
 			<main className="flex flex-col bg-[#242323]">
-				<div className="relative mx-auto h-auto w-full max-w-7xl overflow-hidden py-12 md:px-6">
-					<div className="relative inset-0 z-10 w-2xl max-w-7xl justify-start py-8 text-white md:py-16">
+				<div className="relative h-auto w-full overflow-hidden mx-auto py-12 md:px-6">
+					<div className="inset-0 relative z-10 text-white w-2xl max-w-7xl justify-start py-8 ml-16 md:py-16">
 						<h1 className="font-normal text-6xl">CPG Data Store</h1>
 						<div className="mt-8 text-lg leading-snug lg:text-xl">
 							Welcome to MVP V1.0 of Becausal&apos;s CPG Data Store. Once complete, the entirety of our Purchase Dataset
